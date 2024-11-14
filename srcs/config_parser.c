@@ -54,6 +54,9 @@ int	load_texture(t_data *data, t_texture *texture, char *path)
 		*newline = '\0';
 	texture->img = mlx_xpm_file_to_image(data->mlx, texture->path,
 			&texture->width, &texture->height);
+	printf("Attempting to load texture: %s\n", path);
+	if (!texture->img)
+		printf("MLX failed to load texture at: %s\n", path);
 	if (!texture->img)
 	{
 		printf("Error: Could not load texture from %s\n", texture->path);
