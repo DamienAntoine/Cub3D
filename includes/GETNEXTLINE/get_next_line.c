@@ -13,19 +13,19 @@
 #include <limits.h>
 #include "get_next_line.h"
 
-void	cleanlist(t_list **list)
+void	cleanlist(t_tab **list)
 {
-	t_list	*last_node;
-	t_list	*clean;
+	t_tab	*last_node;
+	t_tab	*clean;
 	int		i;
 	int		k;
 	char	*buf;
 
 	buf = malloc(BUFFER_SIZE + 1);
-	clean = malloc(sizeof(t_list));
+	clean = malloc(sizeof(t_tab));
 	if (buf == NULL || clean == NULL)
 		return ;
-	last_node = ft_lstlast(*list);
+	last_node = ft_tablast(*list);
 	i = 0;
 	k = 0;
 	while (last_node->str_buf[i] && last_node->str_buf[i] != '\n')
@@ -38,13 +38,13 @@ void	cleanlist(t_list **list)
 	unmalloc(list, clean, buf);
 }
 
-void	lstcat(t_list **list, char *buf)
+void	lstcat(t_tab **list, char *buf)
 {
-	t_list	*new_node;
-	t_list	*last_node;
+	t_tab	*new_node;
+	t_tab	*last_node;
 
-	last_node = ft_lstlast(*list);
-	new_node = malloc(sizeof(t_list));
+	last_node = ft_tablast(*list);
+	new_node = malloc(sizeof(t_tab));
 	if (new_node == NULL)
 		return ;
 	if (last_node == NULL)
@@ -55,7 +55,7 @@ void	lstcat(t_list **list, char *buf)
 	new_node->next = NULL;
 }
 
-void	create_lst(t_list **list, int fd)
+void	create_lst(t_tab **list, int fd)
 {
 	int		bytesread;
 	char	*buf;
@@ -76,7 +76,7 @@ void	create_lst(t_list **list, int fd)
 	}
 }
 
-char	*get_line(t_list *list)
+char	*get_line(t_tab *list)
 {
 	int		len;
 	char	*nxtline;
@@ -92,7 +92,7 @@ char	*get_line(t_list *list)
 
 char	*get_next_line(int fd)
 {
-	static t_list	*list;
+	static t_tab	*list;
 	char			*nxtline;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -119,7 +119,7 @@ int     main(void)
 
         while (line = get_next_line(fd))
         {
-            printf("line %d: %s\n", lines++, line);    
+            printf("line %d: %s\n", lines++, line);
         }
     free(line);
     return 0;

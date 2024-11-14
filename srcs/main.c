@@ -1,58 +1,38 @@
 #include "../headers/cub.h"
 
-static void	init_data(t_data *data)
+static int initialize_textures(t_data *data)
 {
-	data->win_w = ft_strlen(data->map[0]);
-	data->win_h = map_height(data->map);
-	data->mlx = mlx_init();
-	data->image.img = mlx_new_image(data->mlx, data->win_w * 50,
-									data->win_h * 50);
-	if (data->image.img)
-		data->image.addr = mlx_get_data_addr(data->image.img,
-				&data->image.bits_p_pxl, &data->image.line_length,
-				&data->image.endian);
-	data->win = NULL;
+    data->north.img = NULL;
+    data->north.path = NULL;
+    data->south.img = NULL;
+    data->south.path = NULL;
+    data->east.img = NULL;
+    data->east.path = NULL;
+    data->west.img = NULL;
+    data->west.path = NULL;
 
-	data->ray.posX = 22.0;
-	data->ray.posY = 12.0;
-	data->ray.dirX = -1.0;
-	data->ray.dirY = 0.0;
-	data->ray.planeX = 0.0;
-	data->ray.planeY = 0.66;
-	data->ray.move_speed = 0.1;
-	data->ray.rotate_speed = 0.1;
+    return (0);
 }
 
-void	free_resources(t_data *data)
+void	init_data(t_data *data)
 {
-	int	i;
-
-	i = 0;
-	if (data->map)
-	{
-		while (data->map[i])
-		{
-			free(data->map[i]);
-			i++;
-		}
-		free(data->map);
-	}
-	if (data->image.img)
-	{
-		mlx_destroy_image(data->mlx, data->image.img);
-		data->image.img = NULL;
-	}
-	if (data->win)
-	{
-		mlx_destroy_window(data->mlx, data->win);
-		data->win = NULL;
-	}
-	if (data->mlx)
-	{
-		mlx_destroy_display(data->mlx);
-		free(data->mlx);
-		data->mlx = NULL;
-	}
+	ft_memset(data, 0, sizeof(t_data));
+	data->mlx = mlx_init();
+	if (!data->mlx)
+		exit_error("MLX initialization failed");
+	data->win = NULL;
+	data->map = NULL;
+	data->image.img = NULL;
+	data->image.addr = NULL;
+	data->ray.pos_x = 22.0;
+	data->ray.pos_y = 12.0;
+	data->ray.dir_x = -1.0;
+	data->ray.dir_y = 0.0;
+	data->ray.plane_x = 0.0;
+	data->ray.plane_y = 0.66;
+	data->ray.move_speed = 0.1;
+	data->ray.rotate_speed = 0.1;
+	initialize_textures(data);
 }
 
 int	controls(int key, t_data *data)
@@ -66,9 +46,9 @@ int	controls(int key, t_data *data)
 	else if (key == KEY_S)
 		mv_bw(data);
 	else if (key == KEY_A)
-		strafe_l(data);
+		strafe_left(data);
 	else if (key == KEY_D)
-		strafe_r(data);
+		strafe_right(data);
 	else if (key == KEY_ESC)
 		close_win(data);
 	return (0);
@@ -76,49 +56,39 @@ int	controls(int key, t_data *data)
 
 int	close_win(t_data *data)
 {
-	free_images(data);
+	free_img(data);
 	free_resources(data);
 	exit(EXIT_SUCCESS);
 	return (0);
 }
 
-void	free_images(t_data *data)
+void	print_usage(void)
 {
-	if (data->image.img)
-	{
-		mlx_destroy_image(data->mlx, data->image.img);
-		data->image.img = NULL;
-	}
+	printf("Usage: ./cub3D <path_to_map.cub>\n");
+	printf("Example: ./cub3D maps/map.cub\n");
 }
 
 int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	if (argc < 2)
+	if (argc != 2)
 	{
-		perror("Error: Not enough arguments");
-		return (1);
+		print_usage();
+		exit_error("Error: Wrong number of arguments");
 	}
+	init_data(&data);
 	check_file(argv[1]);
+	parse_config(&data, argv[1]);
 	data.map = parse_map(argv[1]);
-	if (data.map != NULL)
-	{
-		check_map(&data);
-		init_data(&data);
-		data.win = mlx_new_window(data.mlx, WINDOW_WIDTH, WINDOW_HEIGHT,
-				"SO_LONG");
-		if (!data.win)
-		{
-			free_resources(&data);
-			return (1);
-		}
-		//
-		mlx_hook(data.win, 2, (1L << 0), controls, &data);
-		mlx_hook(data.win, 17, (1L << 0), close_win, &data);
-		mlx_string_put(data.mlx, data.win, 5, 10, 0xffffff, "Move: 0");
-		mlx_loop(data.mlx);
-	}
-	free_resources(&data);
+	if (!data.map)
+		exit_error("Error: Map parsing failed");
+	data.win = mlx_new_window(data.mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Cub3D");
+	if (!data.win)
+		exit_error("Window creation failed");
+	mlx_hook(data.win, 2, (1L << 0), controls, &data);
+	mlx_hook(data.win, 17, (1L << 0), close_win, &data);
+	mlx_loop_hook(data.mlx, render, &data);
+	mlx_loop(data.mlx);
 	return (0);
 }

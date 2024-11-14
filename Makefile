@@ -2,11 +2,32 @@ NAME = Cub3D
 CFLAGS = -Wextra -Wall -Werror
 SRCS_DIR = srcs
 OBJS_DIR = objs
-SRCS =	./srcs/main.c
-GETNEXTLINE := includes/get_next_line/*.c
+
+# Library paths
+LIBFT_DIR = ./includes/libft
+LIBFT = $(LIBFT_DIR)/libft.a
+
+SRCS =	./srcs/main.c \
+		./srcs/render.c \
+		./srcs/parse_map.c \
+		./srcs/check_map.c \
+		./srcs/map_helpers.c \
+		./srcs/movements.c \
+		./srcs/rotate.c \
+		./srcs/raycasting.c \
+		./srcs/raycast_helpers.c \
+		./srcs/free.c \
+		./srcs/free_helpers.c \
+		./srcs/error.c \
+		./srcs/config_parser.c \
+		./srcs/check_file.c \
+		./srcs/texture_mapping.c
+GETNEXTLINE := includes/GETNEXTLINE/*.c
 OBJS = $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
-MLX_LIB = mlx
-MLX_FLAGS = -Lmlx -lmlx -L/usr/lib/X11 -lXext -lX11 -lm
+
+MLX_DIR = mlx
+MLX_LIB = $(MLX_DIR)/libmlx.a
+MLX_FLAGS = -L$(MLX_DIR) -lmlx -L/usr/lib/X11 -lXext -lX11 -lm
 
 DEF_COLOR = \033[0;39m
 GRAY = \033[0;90m
@@ -18,31 +39,39 @@ MAGENTA = \033[0;95m
 CYAN = \033[0;96m
 WHITE = \033[0;97m
 
-all: $(OBJS_DIR) $(NAME)
+all: $(LIBFT) $(MLX_LIB) $(OBJS_DIR) $(NAME)
+
+$(LIBFT):
+	@echo "$(BLUE)Compiling libft...$(DEF_COLOR)"
+	@make -C $(LIBFT_DIR)
+
+$(MLX_LIB):
+	@echo "$(BLUE)Compiling MLX...$(DEF_COLOR)"
+	@make -C $(MLX_DIR)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@mkdir -p $(@D)
-	@echo Compiling $< to $@
-	$(CC) $(CFLAGS) -Imlx -c $< -o $@
+	@echo "Compiling $< to $@"
+	@$(CC) $(CFLAGS) -I$(MLX_DIR) -I$(LIBFT_DIR) -c $< -o $@
 
 $(OBJS_DIR):
-	mkdir -p $(OBJS_DIR)
+	@mkdir -p $(OBJS_DIR)
 
-$(NAME): $(MLX_LIB) $(OBJS)
-	@echo "$(YELLOW)Compiling so_long $(DEF_COLOR)"
-	@$(CC) $(CFLAGS) $(OBJS) $(GETNEXTLINE) $(MLX_FLAGS) -L./includes -lftprintf -o $(NAME)
-	@echo "$(GREEN)so_long Compiled $(DEF_COLOR)"
+$(NAME): $(OBJS)
+	@echo "$(YELLOW)Compiling Cub3D $(DEF_COLOR)"
+	@$(CC) $(OBJS) $(GETNEXTLINE) -L$(LIBFT_DIR) -lft $(MLX_FLAGS) -o $(NAME)
+	@echo "$(GREEN)Cub3D Compiled $(DEF_COLOR)"
 
 clean:
-	rm -rf $(OBJS_DIR)
+	@echo "$(RED)Cleaning object files...$(DEF_COLOR)"
+	@rm -rf $(OBJS_DIR)
+	@make -C $(LIBFT_DIR) clean
+	@make -C $(MLX_DIR) clean
 
 fclean: clean
-	@if [ -d "mlx" ]; then \
-	make clean -C mlx/; \
-	rm -rf mlx/; \
-	fi
-#	@make fclean -C $(PRINTF_DIR)
-	rm -f $(NAME)
+	@echo "$(RED)Cleaning executables...$(DEF_COLOR)"
+	@rm -f $(NAME)
+	@make -C $(LIBFT_DIR) fclean
 
 re: fclean all
 

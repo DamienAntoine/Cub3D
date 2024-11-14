@@ -20,20 +20,20 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef struct s_list
+typedef struct s_tab
 {
 	char			*str_buf;
-	struct s_list	*next;
-}		t_list;
+	struct s_tab	*next;
+}		t_tab;
 
-int		scanline(t_list *list);
-t_list	*ft_lstlast(t_list *lst);
-char	*get_line(t_list *list);
-void	struct_strcpy(t_list *list, char *str);
-int		charcount(t_list *list);
-void	cleanlist(t_list **list);
+int		scanline(t_tab *tab);
+t_tab	*ft_tablast(t_tab *lst);
+char	*get_line(t_tab *tab);
+void	struct_strcpy(t_tab *tab, char *str);
+int		charcount(t_tab *tab);
+void	cleanlist(t_tab **tab);
 char	*get_next_line(int fd);
-void	unmalloc(t_list **list, t_list *clean, char *buf);
-void	create_lst(t_list **list, int fd);
+void	unmalloc(t_tab **tab, t_tab *clean, char *buf);
+void	create_lst(t_tab **tab, int fd);
 
 #endif

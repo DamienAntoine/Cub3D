@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-t_list	*ft_lstlast(t_list *lst)
+t_tab	*ft_tablast(t_tab *lst)
 {
 	if (lst == NULL)
 		return (NULL);
@@ -23,7 +23,7 @@ t_list	*ft_lstlast(t_list *lst)
 	return (lst);
 }
 
-int	charcount(t_list *list)
+int	charcount(t_tab *list)
 {
 	int	i;
 	int	len;
@@ -45,11 +45,11 @@ int	charcount(t_list *list)
 			++len;
 		}
 		list = list->next;
-	}	
+	}
 	return (len);
 }
 
-void	struct_strcpy(t_list *list, char *str)
+void	struct_strcpy(t_tab *list, char *str)
 {
 	int	i;
 	int	j;
@@ -75,7 +75,7 @@ void	struct_strcpy(t_list *list, char *str)
 	str[j] = '\0';
 }
 
-int	scanline(t_list *list)
+int	scanline(t_tab *list)
 {
 	int	i;
 
@@ -95,12 +95,10 @@ int	scanline(t_list *list)
 	return (0);
 }
 
-void	unmalloc(t_list **list, t_list *clean, char *buf)
+void	unmalloc(t_tab **list, t_tab *clean, char *buf)
 {
-	t_list	*temp;
+	t_tab	*temp;
 
-	if (*list == NULL)
-		return ;
 	while (*list)
 	{
 		temp = (*list)->next;
@@ -108,12 +106,12 @@ void	unmalloc(t_list **list, t_list *clean, char *buf)
 		free(*list);
 		*list = temp;
 	}
-	*list = NULL;
-	if (clean->str_buf[0])
+	if (clean && clean->str_buf && clean->str_buf[0])
 		*list = clean;
 	else
 	{
 		free(buf);
 		free(clean);
+		*list = NULL;
 	}
 }
