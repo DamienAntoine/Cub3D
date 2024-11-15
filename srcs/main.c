@@ -28,6 +28,21 @@ void	init_data(t_data *data)
 	initialize_textures(data);
 }
 
+void	init_map_size(t_data *data)
+{
+	int	line_len;
+
+	data->map_height = 0;
+	data->map_width = 0;
+	while (data->map[data->map_height])
+	{
+		line_len = ft_strlen(data->map[data->map_height]);
+		if (line_len > data->map_width)
+			data->map_width = line_len;
+		data->map_height++;
+	}
+}
+
 void	print_usage(void)
 {
 	printf("Usage: ./cub3D <path_to_map.cub>\n");
@@ -49,6 +64,7 @@ int	main(int argc, char **argv)
 	data.map = parse_map(argv[1]);
 	if (!data.map)
 		exit_error("Error: Map parsing failed");
+	init_map_size(&data);
 	check_map(&data);
 	data.win = mlx_new_window(data.mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Cub3D");
 	if (!data.win)

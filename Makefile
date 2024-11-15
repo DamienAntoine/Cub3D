@@ -21,7 +21,9 @@ SRCS =	./srcs/main.c \
 		./srcs/error.c \
 		./srcs/config_parser.c \
 		./srcs/check_file.c \
-		./srcs/texture_mapping.c
+		./srcs/texture_mapping.c \
+		./srcs/pixel_put.c \
+		./srcs/draw_walls.c
 GETNEXTLINE := includes/GETNEXTLINE/*.c
 OBJS = $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
 

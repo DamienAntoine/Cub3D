@@ -16,7 +16,8 @@ void	validate_player_position(t_data *data)
 
 	printf("Starting player position validation\n");
 	printf("Checking map contents:\n");
-	for (int i = 0; data->map[i]; i++) {
+	for (int i = 0; data->map[i]; i++)
+	{
 		printf("%s\n", data->map[i]);
 	}
 	player_count = 0;
@@ -86,22 +87,22 @@ void	validate_map_elements(t_data *data)
 {
 	int	y;
 	int	x;
-	int	width;
 	int	height;
+	int	max_width;
+	int	line_len;
 
 	y = 0;
-	// Get height first
 	height = 0;
+	max_width = 0;
 	while (data->map[height])
+	{
+		line_len = ft_strlen(data->map[height]);
+		if (line_len > max_width)
+			max_width = line_len;
 		height++;
-	width = ft_strlen(data->map[0]);
+	}
 	while (data->map[y])
 	{
-		if ((int)ft_strlen(data->map[y]) != width)
-		{
-			printf("Error: Map must be rectangular\n");
-			exit(1);
-		}
 		x = 0;
 		while (data->map[y][x])
 		{
@@ -113,13 +114,17 @@ void	validate_map_elements(t_data *data)
 				printf("Error: Invalid character in map\n");
 				exit(1);
 			}
-			if (data->map[y][x] == '0' || data->map[y][x] == 'N'
-				|| data->map[y][x] == 'S' || data->map[y][x] == 'E'
-				|| data->map[y][x] == 'W')
+			if (data->map[y][x] == '0' || ft_strchr("NSEW", data->map[y][x]))
 			{
-				if (y == 0 || y == height - 1 || x == 0 || x == width - 1
-					|| data->map[y - 1][x] == ' ' || data->map[y + 1][x] == ' '
-					|| data->map[y][x - 1] == ' ' || data->map[y][x + 1] == ' ')
+				if (y == 0 || y == height - 1 || x == 0 || !data->map[y][x + 1]
+					||
+					!data->map[y - 1] || x >= ft_strlen(data->map[y - 1])
+						||
+					!data->map[y + 1] || x >= ft_strlen(data->map[y + 1])
+						||
+					data->map[y - 1][x] == ' ' || data->map[y + 1][x] == ' '
+						|| data->map[y][x - 1] == ' ' || data->map[y][x
+						+ 1] == ' ')
 				{
 					printf("Error: Map must be enclosed by walls\n");
 					exit(1);
@@ -130,64 +135,57 @@ void	validate_map_elements(t_data *data)
 		y++;
 	}
 }
-
-char **parse_map(char *map)
+//need to fix map parsing so maps like map2.cub work too
+//
+char	**parse_map(char *map)
 {
-    char *cur_line;
-    char *all_lines;
-    char *temp;
-    char **split_lines;
-    int fd;
-    int found_map;
+	char	*cur_line;
+	char	*all_lines;
+	char	*temp;
+	char	**split_lines;
+	int		fd;
+	int		found_map;
 
-    found_map = 0;
-    all_lines = ft_strdup("");
-    if (!all_lines)
-        return (NULL);
-    fd = open(map, O_RDONLY);
-    if (fd < 0)
-    {
-        free(all_lines);
-        return (NULL);
-    }
-
-    // Skip until we find the map (line starting with 1)
-    while ((cur_line = get_next_line(fd)) != NULL)
-    {
-        // Skip empty lines
-        if (cur_line[0] == '\n' || cur_line[0] == '\0')
-        {
-            free(cur_line);
-            continue;
-        }
-
-        // Check if this is the start of map (line starting with 1)
-        if (cur_line[0] == '1')
-        {
-            found_map = 1;
-            temp = all_lines;
-            all_lines = ft_strjoin(all_lines, cur_line);
-            free(temp);
-        }
-
-        // If we found map, keep adding lines
-        else if (found_map)
-        {
-            temp = all_lines;
-            all_lines = ft_strjoin(all_lines, cur_line);
-            free(temp);
-        }
-        free(cur_line);
-    }
-
-    cleanup_gnl(fd);
-    close(fd);
-    if (all_lines[0] == '\0')
-    {
-        free(all_lines);
-        return (NULL);
-    }
-    split_lines = ft_split(all_lines, '\n');
-    free(all_lines);
-    return (split_lines);
+	found_map = 0;
+	all_lines = ft_strdup("");
+	if (!all_lines)
+		return (NULL);
+	fd = open(map, O_RDONLY);
+	if (fd < 0)
+	{
+		free(all_lines);
+		return (NULL);
+	}
+	while ((cur_line = get_next_line(fd)) != NULL)
+	{
+		if (cur_line[0] == '\n' || cur_line[0] == '\0')
+		{
+			free(cur_line);
+			continue ;
+		}
+		if (cur_line[0] == '1')
+		{
+			found_map = 1;
+			temp = all_lines;
+			all_lines = ft_strjoin(all_lines, cur_line);
+			free(temp);
+		}
+		else if (found_map)
+		{
+			temp = all_lines;
+			all_lines = ft_strjoin(all_lines, cur_line);
+			free(temp);
+		}
+		free(cur_line);
+	}
+	cleanup_gnl(fd);
+	close(fd);
+	if (all_lines[0] == '\0')
+	{
+		free(all_lines);
+		return (NULL);
+	}
+	split_lines = ft_split(all_lines, '\n');
+	free(all_lines);
+	return (split_lines);
 }

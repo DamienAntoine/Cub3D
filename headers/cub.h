@@ -23,8 +23,6 @@
 # define KEY_Q 113
 # define KEY_ESC 65307
 # define PATH_MAX 200
-# define MAP_WIDTH 12
-# define MAP_HEIGHT 5
 
 typedef struct s_texture
 {
@@ -37,6 +35,21 @@ typedef struct s_texture
 	int			width;
 	int			height;
 }				t_texture;
+
+typedef struct s_wall_data
+{
+	int x;
+	int line_height;
+	int draw_start;
+	int draw_end;
+}				t_wall_data;
+
+typedef struct s_wall_calc
+{
+	t_texture	**texture;
+	double		*wall_x;
+	double		perp_wall_dist;
+}				t_wall_calc;
 
 typedef struct s_img
 {
@@ -81,14 +94,16 @@ typedef struct s_data
 	int			win_w;
 	int			win_h;
 	char		**map;
+	int			map_width;
+	int			map_height;
 	int			floor_color;
 	int			ceiling_color;
-	int key_w;
-	int key_s;
-	int key_a;
-	int key_d;
-	int key_left;
-	int key_right;
+	int			key_w;
+	int			key_s;
+	int			key_a;
+	int			key_d;
+	int			key_left;
+	int			key_right;
 	t_texture	north;
 	t_texture	south;
 	t_texture	east;
@@ -123,6 +138,7 @@ void	cast_rays(t_data *data);
 void	draw_floor_ceiling(t_data *data);
 void	validate_player_position(t_data *data);
 void	validate_map_elements(t_data *data);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 char	**parse_map(char *map);
 void	free_split(char **split);
 void	init_dda(double ray_dir_x, double ray_dir_y, t_data *data,

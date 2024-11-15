@@ -68,6 +68,19 @@ int	render(t_data *data)
 	data->image.img = mlx_new_image(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (!data->image.img)
 		return (1);
+	if (data->image.img)
+    mlx_destroy_image(data->mlx, data->image.img);
+
+	data->image.img = mlx_new_image(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	if (!data->image.img)
+		return (1);
+
+	data->image.addr = mlx_get_data_addr(data->image.img,
+										&data->image.bits_p_pxl,
+										&data->image.line_length,
+										&data->image.endian);
+	if (!data->image.addr)
+		return (1);
 	draw_floor_ceiling(data);
 	cast_rays(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->image.img, 0, 0);

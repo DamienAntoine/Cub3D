@@ -76,8 +76,8 @@ void	perform_dda(t_data *data, t_dda *dda)
 			dda->map_y += dda->step_y;
 			side = 1;
 		}
-		if (dda->map_x < 0 || dda->map_y < 0 || dda->map_x >= MAP_WIDTH
-			|| dda->map_y >= MAP_HEIGHT || data->map[dda->map_y] == NULL)
+		if (dda->map_x < 0 || dda->map_y < 0 || dda->map_x >= data->map_width
+			|| dda->map_y >= data->map_height || data->map[dda->map_y] == NULL)
 		{
 			hit = 1;
 			break ;
@@ -86,35 +86,4 @@ void	perform_dda(t_data *data, t_dda *dda)
 			hit = 1;
 	}
 	dda->side = side;
-}
-
-void	draw_wall(t_data *data, t_dda *dda, int x, double perp_wall_dist)
-{
-	int	line_height;
-	int	draw_start;
-	int	draw_end;
-	int	y;
-	int	color;
-	int	*img_data;
-
-	img_data = (int *)mlx_get_data_addr(data->image.img,
-			&data->image.bits_p_pxl, &data->image.line_length,
-			&data->image.endian);
-	line_height = (int)(WINDOW_HEIGHT / perp_wall_dist);
-	draw_start = -line_height / 2 + WINDOW_HEIGHT / 2;
-	if (draw_start < 0)
-		draw_start = 0;
-	draw_end = line_height / 2 + WINDOW_HEIGHT / 2;
-	if (draw_end >= WINDOW_HEIGHT)
-		draw_end = WINDOW_HEIGHT - 1;
-	if (dda->side == 1)
-		color = 0x00800000;
-	else
-		color = 0x00FF0000;
-	y = draw_start;
-	while (y < draw_end)
-	{
-		img_data[y * WINDOW_WIDTH + x] = color;
-		y++;
-	}
 }
