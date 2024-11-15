@@ -1,6 +1,6 @@
 #include "../headers/cub.h"
 
-void	rotate_left(t_data *data)
+void	rotate_right(t_data *data)
 {
 	double	old_dir_x;
 	double	old_plane_x;
@@ -19,7 +19,7 @@ void	rotate_left(t_data *data)
 		+ data->ray.plane_y * cos(data->ray.rotate_speed);
 }
 
-void	rotate_right(t_data *data)
+void	rotate_left(t_data *data)
 {
 	double	old_dir_x;
 	double	old_plane_x;

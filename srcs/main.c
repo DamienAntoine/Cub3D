@@ -24,12 +24,12 @@ void	init_data(t_data *data)
 	data->map = NULL;
 	data->image.img = NULL;
 	data->image.addr = NULL;
-	data->ray.pos_x = 22.0;
+	/*data->ray.pos_x = 22.0;
 	data->ray.pos_y = 12.0;
 	data->ray.dir_x = -1.0;
 	data->ray.dir_y = 0.0;
 	data->ray.plane_x = 0.0;
-	data->ray.plane_y = 0.66;
+	data->ray.plane_y = 0.66;*/
 	data->ray.move_speed = 0.1;
 	data->ray.rotate_speed = 0.1;
 	initialize_textures(data);
@@ -83,6 +83,7 @@ int	main(int argc, char **argv)
 	data.map = parse_map(argv[1]);
 	if (!data.map)
 		exit_error("Error: Map parsing failed");
+	check_map(&data);
 	data.win = mlx_new_window(data.mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Cub3D");
 	if (!data.win)
 		exit_error("Window creation failed");

@@ -3,11 +3,11 @@ SO textures/colorstone.xpm
 WE textures/greystone.xpm
 EA textures/purplestone.xpm
 
-F 184,113,200
-C 11,108,227
+F 184,113,100
+C 11,108,107
 
 111111111111
 100000000001
 100000000001
-100000N00001
+10E000000001
 111111111111

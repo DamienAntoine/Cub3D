@@ -14,6 +14,11 @@ void	validate_player_position(t_data *data)
 	int	y;
 	int	x;
 
+	printf("Starting player position validation\n");
+	printf("Checking map contents:\n");
+	for (int i = 0; data->map[i]; i++) {
+		printf("%s\n", data->map[i]);
+	}
 	player_count = 0;
 	y = 0;
 	while (data->map[y])
@@ -29,14 +34,17 @@ void	validate_player_position(t_data *data)
 				data->ray.pos_y = y + 0.5;
 				if (data->map[y][x] == 'N')
 				{
+					data->ray.pos_x = x + 0.5;
+					data->ray.pos_y = y + 0.5;
 					data->ray.dir_x = 0;
 					data->ray.dir_y = -1;
 					data->ray.plane_x = 0.66;
-					// 0.66 is the standard value used in the original wolfenstein 3D (used for field of view)
 					data->ray.plane_y = 0;
 				}
 				else if (data->map[y][x] == 'S')
 				{
+					data->ray.pos_x = x + 0.5;
+					data->ray.pos_y = y + 0.5;
 					data->ray.dir_x = 0;
 					data->ray.dir_y = 1;
 					data->ray.plane_x = -0.66;
@@ -44,6 +52,10 @@ void	validate_player_position(t_data *data)
 				}
 				else if (data->map[y][x] == 'E')
 				{
+					printf("Found player at position: x=%d, y=%d\n", x, y);
+					printf("Setting position to: %f,%f\n", x + 0.5, y + 0.5);
+					data->ray.pos_x = x + 0.5;
+					data->ray.pos_y = y + 0.5;
 					data->ray.dir_x = 1;
 					data->ray.dir_y = 0;
 					data->ray.plane_x = 0;
@@ -51,6 +63,8 @@ void	validate_player_position(t_data *data)
 				}
 				else if (data->map[y][x] == 'W')
 				{
+					data->ray.pos_x = x + 0.5;
+					data->ray.pos_y = y + 0.5;
 					data->ray.dir_x = -1;
 					data->ray.dir_y = 0;
 					data->ray.plane_x = 0;
@@ -117,46 +131,63 @@ void	validate_map_elements(t_data *data)
 	}
 }
 
-char	**parse_map(char *map)
+char **parse_map(char *map)
 {
-	char	*cur_line;
-	char	*all_lines;
-	char	*temp;
-	char	**split_lines;
-	int		fd;
-	int		found_map;
+    char *cur_line;
+    char *all_lines;
+    char *temp;
+    char **split_lines;
+    int fd;
+    int found_map;
 
-	found_map = 0;
-	all_lines = ft_strdup("");
-	if (!all_lines)
-		return (NULL);
-	fd = open(map, O_RDONLY);
-	if (fd < 0)
-	{
-		free(all_lines);
-		return (NULL);
-	}
-	// Skip config section
-	while ((cur_line = get_next_line(fd)) != NULL)
-	{
-		if (!found_map && cur_line[0] && ft_strchr("01NSEW", cur_line[0]))
-			found_map = 1;
-		if (found_map)
-		{
-			temp = all_lines;
-			all_lines = ft_strjoin(all_lines, cur_line);
-			free(temp);
-		}
-		free(cur_line);
-	}
-	cleanup_gnl(fd);
-	close(fd);
-	if (all_lines[0] == '\0')
-	{
-		free(all_lines);
-		return (NULL);
-	}
-	split_lines = ft_split(all_lines, '\n');
-	free(all_lines);
-	return (split_lines);
+    found_map = 0;
+    all_lines = ft_strdup("");
+    if (!all_lines)
+        return (NULL);
+    fd = open(map, O_RDONLY);
+    if (fd < 0)
+    {
+        free(all_lines);
+        return (NULL);
+    }
+
+    // Skip until we find the map (line starting with 1)
+    while ((cur_line = get_next_line(fd)) != NULL)
+    {
+        // Skip empty lines
+        if (cur_line[0] == '\n' || cur_line[0] == '\0')
+        {
+            free(cur_line);
+            continue;
+        }
+
+        // Check if this is the start of map (line starting with 1)
+        if (cur_line[0] == '1')
+        {
+            found_map = 1;
+            temp = all_lines;
+            all_lines = ft_strjoin(all_lines, cur_line);
+            free(temp);
+        }
+
+        // If we found map, keep adding lines
+        else if (found_map)
+        {
+            temp = all_lines;
+            all_lines = ft_strjoin(all_lines, cur_line);
+            free(temp);
+        }
+        free(cur_line);
+    }
+
+    cleanup_gnl(fd);
+    close(fd);
+    if (all_lines[0] == '\0')
+    {
+        free(all_lines);
+        return (NULL);
+    }
+    split_lines = ft_split(all_lines, '\n');
+    free(all_lines);
+    return (split_lines);
 }
