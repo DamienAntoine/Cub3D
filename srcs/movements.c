@@ -48,7 +48,7 @@ void	mv_bw(t_data *data)
 		data->ray.pos_y = new_y;
 }
 
-void	strafe_left(t_data *data)
+void	strafe_right(t_data *data)
 {
 	double	new_x;
 	double	new_y;
@@ -72,7 +72,7 @@ void	strafe_left(t_data *data)
 		data->ray.pos_y = new_y;
 }
 
-void	strafe_right(t_data *data)
+void	strafe_left(t_data *data)
 {
 	double	new_x;
 	double	new_y;

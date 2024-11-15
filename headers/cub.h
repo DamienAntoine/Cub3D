@@ -19,6 +19,8 @@
 # define KEY_S 115
 # define KEY_A 97
 # define KEY_D 100
+# define KEY_Z 122
+# define KEY_Q 113
 # define KEY_ESC 65307
 # define PATH_MAX 200
 # define MAP_WIDTH 12
@@ -68,6 +70,8 @@ typedef struct s_dda
 	double		side_dist_y;
 	double		delta_dist_x;
 	double		delta_dist_y;
+	double		ray_dir_x;
+	double		ray_dir_y;
 }				t_dda;
 
 typedef struct s_data
@@ -79,6 +83,12 @@ typedef struct s_data
 	char		**map;
 	int			floor_color;
 	int			ceiling_color;
+	int key_w;
+	int key_s;
+	int key_a;
+	int key_d;
+	int key_left;
+	int key_right;
 	t_texture	north;
 	t_texture	south;
 	t_texture	east;
@@ -88,6 +98,8 @@ typedef struct s_data
 }				t_data;
 
 void	init_data(t_data *data);
+int		key_press(int key, t_data *data);
+int		key_release(int key, t_data *data);
 void	mv_fw(t_data *data);
 void	mv_bw(t_data *data);
 void	strafe_left(t_data *data);
@@ -113,7 +125,7 @@ void	validate_player_position(t_data *data);
 void	validate_map_elements(t_data *data);
 char	**parse_map(char *map);
 void	free_split(char **split);
-void	init_dda(double ray_dir_x, double rary_dir_y, t_data *data,
+void	init_dda(double ray_dir_x, double ray_dir_y, t_data *data,
 			t_dda *dda);
 void	calculate_step(t_dda *dda, double ray_dir_x, double rary_dir_y,
 					t_data *data);

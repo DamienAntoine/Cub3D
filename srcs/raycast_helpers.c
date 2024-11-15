@@ -10,13 +10,15 @@ void	calculate_ray(t_data *data, int x, double *ray_dir_x,
 	*rary_dir_y = data->ray.dir_y + data->ray.plane_y * cam_x;
 }
 
-void	init_dda(double ray_dir_x, double rary_dir_y, t_data *data, t_dda *dda)
+void	init_dda(double ray_dir_x, double ray_dir_y, t_data *data, t_dda *dda)
 {
 	double	delta_dist_x;
 	double	delta_dist_y;
 
+	dda->ray_dir_x = ray_dir_x;
+	dda->ray_dir_y = ray_dir_y;
 	delta_dist_x = fabs(1 / ray_dir_x);
-	delta_dist_y = fabs(1 / rary_dir_y);
+	delta_dist_y = fabs(1 / ray_dir_y);
 	dda->map_x = (int)data->ray.pos_x;
 	dda->map_y = (int)data->ray.pos_y;
 	dda->delta_dist_x = delta_dist_x;
