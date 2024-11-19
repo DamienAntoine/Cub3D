@@ -14,12 +14,6 @@ void	validate_player_position(t_data *data)
 	int	y;
 	int	x;
 
-	printf("Starting player position validation\n");
-	printf("Checking map contents:\n");
-	for (int i = 0; data->map[i]; i++)
-	{
-		printf("%s\n", data->map[i]);
-	}
 	player_count = 0;
 	y = 0;
 	while (data->map[y])
@@ -53,8 +47,6 @@ void	validate_player_position(t_data *data)
 				}
 				else if (data->map[y][x] == 'E')
 				{
-					printf("Found player at position: x=%d, y=%d\n", x, y);
-					printf("Setting position to: %f,%f\n", x + 0.5, y + 0.5);
 					data->ray.pos_x = x + 0.5;
 					data->ray.pos_y = y + 0.5;
 					data->ray.dir_x = 1;
@@ -91,6 +83,7 @@ void	validate_map_elements(t_data *data)
 	int	max_width;
 	int	line_len;
 
+	// map dimensions
 	y = 0;
 	height = 0;
 	max_width = 0;
@@ -101,11 +94,19 @@ void	validate_map_elements(t_data *data)
 			max_width = line_len;
 		height++;
 	}
+	// map characters and walls
 	while (data->map[y])
 	{
 		x = 0;
 		while (data->map[y][x])
 		{
+			// skip spaces
+			if (data->map[y][x] == ' ')
+			{
+				x++;
+				continue ;
+			}
+			// character pos
 			if (data->map[y][x] != '0' && data->map[y][x] != '1'
 				&& data->map[y][x] != 'N' && data->map[y][x] != 'S'
 				&& data->map[y][x] != 'E' && data->map[y][x] != 'W'
@@ -116,17 +117,30 @@ void	validate_map_elements(t_data *data)
 			}
 			if (data->map[y][x] == '0' || ft_strchr("NSEW", data->map[y][x]))
 			{
-				if (y == 0 || y == height - 1 || x == 0 || !data->map[y][x + 1]
-					||
-					!data->map[y - 1] || x >= ft_strlen(data->map[y - 1])
-						||
-					!data->map[y + 1] || x >= ft_strlen(data->map[y + 1])
-						||
-					data->map[y - 1][x] == ' ' || data->map[y + 1][x] == ' '
-						|| data->map[y][x - 1] == ' ' || data->map[y][x
-						+ 1] == ' ')
+				// check above
+				if (y == 0 || x >= ft_strlen(data->map[y - 1]) || data->map[y
+					- 1][x] == ' ' || !data->map[y - 1][x])
 				{
-					printf("Error: Map must be enclosed by walls\n");
+					printf("Error: Map must be enclosed by walls (top)\n");
+					exit(1);
+				}
+				// below
+				if (!data->map[y + 1] || x >= ft_strlen(data->map[y + 1])
+					|| data->map[y + 1][x] == ' ' || !data->map[y + 1][x])
+				{
+					printf("Error: Map must be enclosed by walls (bottom)\n");
+					exit(1);
+				}
+				// left
+				if (x == 0 || data->map[y][x - 1] == ' ')
+				{
+					printf("Error: Map must be enclosed by walls (left)\n");
+					exit(1);
+				}
+				// right
+				if (!data->map[y][x + 1] || data->map[y][x + 1] == ' ')
+				{
+					printf("Error: Map must be enclosed by walls (right)\n");
 					exit(1);
 				}
 			}
@@ -135,8 +149,7 @@ void	validate_map_elements(t_data *data)
 		y++;
 	}
 }
-//need to fix map parsing so maps like map2.cub work too
-//
+
 char	**parse_map(char *map)
 {
 	char	*cur_line;
@@ -144,9 +157,10 @@ char	**parse_map(char *map)
 	char	*temp;
 	char	**split_lines;
 	int		fd;
-	int		found_map;
+	int		config_count;
+	int		map_started;
+	char	*trim;
 
-	found_map = 0;
 	all_lines = ft_strdup("");
 	if (!all_lines)
 		return (NULL);
@@ -156,31 +170,41 @@ char	**parse_map(char *map)
 		free(all_lines);
 		return (NULL);
 	}
-	while ((cur_line = get_next_line(fd)) != NULL)
+	config_count = 0;
+	map_started = 0;
+	while ((cur_line = get_next_line(fd)))
 	{
+		if (ft_strncmp(cur_line, "NO ", 3) == 0 || ft_strncmp(cur_line, "SO ",
+				3) == 0 || ft_strncmp(cur_line, "WE ", 3) == 0
+			|| ft_strncmp(cur_line, "EA ", 3) == 0 || ft_strncmp(cur_line, "F ",
+				2) == 0 || ft_strncmp(cur_line, "C ", 2) == 0)
+			config_count++;
 		if (cur_line[0] == '\n' || cur_line[0] == '\0')
 		{
 			free(cur_line);
 			continue ;
 		}
-		if (cur_line[0] == '1')
+		if (config_count >= 6)
 		{
-			found_map = 1;
-			temp = all_lines;
-			all_lines = ft_strjoin(all_lines, cur_line);
-			free(temp);
-		}
-		else if (found_map)
-		{
-			temp = all_lines;
-			all_lines = ft_strjoin(all_lines, cur_line);
-			free(temp);
+			trim = cur_line;
+			while (*trim == ' ' || *trim == '\t')
+				trim++;
+			if (*trim == '1' || *trim == '0' || ft_strchr("NSEW", *trim))
+			{
+				map_started = 1;
+				temp = all_lines;
+				all_lines = ft_strjoin(all_lines, cur_line);
+				free(temp);
+				temp = all_lines;
+				all_lines = ft_strjoin(all_lines, "\n");
+				free(temp);
+			}
 		}
 		free(cur_line);
 	}
 	cleanup_gnl(fd);
 	close(fd);
-	if (all_lines[0] == '\0')
+	if (!map_started || all_lines[0] == '\0')
 	{
 		free(all_lines);
 		return (NULL);
