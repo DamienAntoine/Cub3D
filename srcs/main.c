@@ -1,6 +1,5 @@
 #include "../headers/cub.h"
 
-
 static int	initialize_textures(t_data *data)
 {
 	data->north.img = NULL;
