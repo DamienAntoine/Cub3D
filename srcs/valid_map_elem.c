@@ -1,4 +1,16 @@
-#include "../headers/cub.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   valid_map_elem.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/26 03:54:54 by dantoine          #+#    #+#             */
+/*   Updated: 2025/01/26 03:57:57 by sanhwang         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../headers/cub3d.h"
 
 static void	get_map_dimensions(t_data *data, int *height, int *max_width)
 {

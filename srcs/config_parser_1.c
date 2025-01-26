@@ -1,4 +1,16 @@
-#include "../headers/cub.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   config_parser_1.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/26 03:52:58 by dantoine          #+#    #+#             */
+/*   Updated: 2025/01/26 03:57:34 by sanhwang         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../headers/cub3d.h"
 
 static int	check_config_textures(t_data *data, char **split, char *line,
 		int fd)

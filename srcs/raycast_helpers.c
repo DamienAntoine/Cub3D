@@ -1,4 +1,16 @@
-#include "../headers/cub.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycast_helpers.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/26 03:54:17 by dantoine          #+#    #+#             */
+/*   Updated: 2025/01/26 03:57:49 by sanhwang         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../headers/cub3d.h"
 
 void	calculate_ray(t_data *data, int x, double *ray_dir_x,
 		double *rary_dir_y)
