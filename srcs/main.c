@@ -58,8 +58,8 @@ int	main(int argc, char **argv)
 		print_usage();
 		exit_error("Error: Wrong number of arguments");
 	}
-	init_data(&data);
 	check_file(argv[1]);
+	init_data(&data);
 	parse_config(&data, argv[1]);
 	data.map = parse_map(argv[1]);
 	if (!data.map)

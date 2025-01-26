@@ -1,5 +1,13 @@
 #include "../headers/cub.h"
 
+void	cleanup_gnl(int fd)
+{
+	char	*line;
+
+	while ((line = get_next_line(fd)) != NULL)
+		free(line);
+}
+
 void	free_split(char **split)
 {
 	int	i;

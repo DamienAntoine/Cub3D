@@ -1,4 +1,4 @@
-NAME = Cub3D
+NAME = cub3D
 CFLAGS = -Wextra -Wall -Werror -g
 SRCS_DIR = srcs
 OBJS_DIR = objs
@@ -23,7 +23,9 @@ SRCS =	./srcs/main.c \
 		./srcs/check_file.c \
 		./srcs/texture_mapping.c \
 		./srcs/pixel_put.c \
-		./srcs/draw_walls.c
+		./srcs/draw_walls.c \
+		./srcs/valid_map_elem.c \
+		./srcs/valid_plyr_pos.c
 GETNEXTLINE := includes/GETNEXTLINE/*.c
 OBJS = $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
 

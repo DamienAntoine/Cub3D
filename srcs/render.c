@@ -44,7 +44,7 @@ int	close_win(t_data *data)
 	return (0);
 }
 
-void	handle_controls(t_data *data)
+static void	handle_controls(t_data *data)
 {
 	if (data->key_w)
 		mv_fw(data);
@@ -64,12 +64,38 @@ int	render(t_data *data)
 {
 	handle_controls(data);
 	if (data->image.img)
+	{
+		mlx_destroy_image(data->mlx, data->image.img);
+		data->image.img = NULL;
+	}
+	data->image.img = mlx_new_image(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	if (!data->image.img)
+		return (1);
+	data->image.addr = mlx_get_data_addr(data->image.img,
+			&data->image.bits_p_pxl, &data->image.line_length,
+			&data->image.endian);
+	if (!data->image.addr)
+	{
+		mlx_destroy_image(data->mlx, data->image.img);
+		data->image.img = NULL;
+		return (1);
+	}
+	draw_floor_ceiling(data);
+	cast_rays(data);
+	mlx_put_image_to_window(data->mlx, data->win, data->image.img, 0, 0);
+	return (0);
+}
+
+/* int	render(t_data *data)
+{
+	handle_controls(data);
+	if (data->image.img)
 		mlx_destroy_image(data->mlx, data->image.img);
 	data->image.img = mlx_new_image(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (!data->image.img)
 		return (1);
 	if (data->image.img)
-    mlx_destroy_image(data->mlx, data->image.img);
+		mlx_destroy_image(data->mlx, data->image.img);  //here it's duplicated?
 
 	data->image.img = mlx_new_image(data->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (!data->image.img)
@@ -85,4 +111,4 @@ int	render(t_data *data)
 	cast_rays(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->image.img, 0, 0);
 	return (0);
-}
+} */
