@@ -2,6 +2,7 @@
 	"files.associations": {
 		"cub.h": "c",
 		"stdio.h": "c",
-		"get_next_line.h": "c"
+		"get_next_line.h": "c",
+		"cub3d_bonus.h": "c"
 	}
 }

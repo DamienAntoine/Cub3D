@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/26 03:56:32 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/26 23:21:27 by sanhwang         ###   ########.fr       */
+/*   Created: 2025/01/26 22:21:17 by sanhwang          #+#    #+#             */
+/*   Updated: 2025/01/26 23:52:43 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
 # include "../includes/GETNEXTLINE/get_next_line.h"
 # include "../includes/libft/libft.h"
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
+//# include "cub3d.h"
 
 # define WINDOW_WIDTH 1024
 # define WINDOW_HEIGHT 768
@@ -35,6 +36,17 @@
 # define KEY_Q 113
 # define KEY_ESC 65307
 # define PATH_MAX 200
+
+typedef struct s_minimap
+{
+	int pos_x; // Minimap position on screen
+	int			pos_y;
+	int width; // Minimap dimensions
+	int			height;
+	int scale;  // Size of each cell
+	int border; // Border thickness
+	int show;   // Toggle minimap
+}				t_minimap;
 
 typedef struct s_texture
 {
@@ -122,7 +134,14 @@ typedef struct s_data
 	t_texture	west;
 	t_ray		ray;
 	t_img		image;
+	t_minimap	minimap;
 }				t_data;
+
+// minimap.c
+void			init_minimap(t_data *data);
+void			draw_minimap(t_data *data);
+void			draw_square(t_data *data, int x, int y, int size, int color);
+
 
 // check_file.c
 void			check_file(char *file);
