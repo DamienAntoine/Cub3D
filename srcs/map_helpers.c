@@ -16,102 +16,9 @@ static int	check_walls(char *line)
 	return (0);
 }
 
-
-
-static void check_horizontal_walls(t_data **data)
+static void	check_horizontal_walls(t_data **data)
 {
-   int height;
-
-   height = map_height((*data)->map);
-   if (check_walls((*data)->map[0]))
-   {
-       clean_map(&data);
-       perror("ERROR: Map not surrounded by walls (top)");
-   }
-   if (check_walls((*data)->map[height - 1]))
-   {
-       clean_map(&data);
-       perror("ERROR: Map not surrounded by walls (bottom)");
-   }
-}
-static void check_vertical_line(t_data **data, int i, int len)
-{
-   int j;
-
-   j = 0;
-   while ((*data)->map[i][j] == ' ')
-       j++;
-   if ((*data)->map[i][j] != '1')
-   {
-       clean_map(&data);
-       perror("ERROR: Map not surrounded by walls (left)");
-   }
-   j = len - 1;
-   while (j >= 0 && (*data)->map[i][j] == ' ')
-       j--;
-   if (j >= 0 && (*data)->map[i][j] != '1')
-   {
-       clean_map(&data);
-       perror("ERROR: Map not surrounded by walls (right)");
-   }
-}
-
-void check_surr_walls(t_data **data)
-{
-   int i;
-   int height;
-   int len;
-
-   height = map_height((*data)->map);
-   check_horizontal_walls(data);
-   i = 0;
-   while(i < height)
-   {
-       len = ft_strlen((*data)->map[i]);
-       check_vertical_line(data, i, len);
-       i++;
-   }
-}
-/* void check_surr_walls(t_data **data)
-{
-   int i;
-   int j;
-   int height;
-   int len;
-
-   height = map_height((*data)->map);
-   check_horizontal_walls(data);
-   i = 0;
-   while(i < height)
-   {
-       len = ft_strlen((*data)->map[i]);
-       j = 0;
-       while ((*data)->map[i][j] == ' ')
-           j++;
-       if ((*data)->map[i][j] != '1')
-       {
-           clean_map(&data);
-           perror("ERROR: Map not surrounded by walls (left)");
-       }
-       j = len - 1;
-       while (j >= 0 && (*data)->map[i][j] == ' ')
-           j--;
-       if (j >= 0 && (*data)->map[i][j] != '1')
-       {
-           clean_map(&data);
-           perror("ERROR: Map not surrounded by walls (right)");
-       }
-       i++;
-   }
-} */
-
-
-/* void	check_surr_walls(t_data **data)
-{
-	int	i;
-	int	j;
 	int	height;
-	int	len;
 
 	height = map_height((*data)->map);
 	if (check_walls((*data)->map[0]))
@@ -124,38 +31,45 @@ void check_surr_walls(t_data **data)
 		clean_map(&data);
 		perror("ERROR: Map not surrounded by walls (bottom)");
 	}
-	i = 0;
-	while(i < height)
-	{
-		len = ft_strlen((*data)->map[i]);
-		j = 0;
-		while ((*data)->map[i][j] == ' ')
-			j++;
-		if ((*data)->map[i][j] != '1')
-		{
-			clean_map(&data);
-			perror("ERROR: Map not surrounded by walls (left)");
-		}
-		j = len - 1;
-		while (j >= 0 && (*data)->map[i][j] == ' ')
-			j--;
-		if (j >= 0 && (*data)->map[i][j] != '1')
-		{
-			clean_map(&data);
-			perror("ERROR: Map not surrounded by walls (right)");
-		}
-		i++;
-	}
-} */
+}
 
-int	map_height(char **map)
+static void	check_vertical_line(t_data **data, int i, int len)
+{
+	int	j;
+
+	j = 0;
+	while ((*data)->map[i][j] == ' ')
+		j++;
+	if ((*data)->map[i][j] != '1')
+	{
+		clean_map(&data);
+		perror("ERROR: Map not surrounded by walls (left)");
+	}
+	j = len - 1;
+	while (j >= 0 && (*data)->map[i][j] == ' ')
+		j--;
+	if (j >= 0 && (*data)->map[i][j] != '1')
+	{
+		clean_map(&data);
+		perror("ERROR: Map not surrounded by walls (right)");
+	}
+}
+
+void	check_surr_walls(t_data **data)
 {
 	int	i;
+	int	height;
+	int	len;
 
+	height = map_height((*data)->map);
+	check_horizontal_walls(data);
 	i = 0;
-	while (map[i])
+	while (i < height)
+	{
+		len = ft_strlen((*data)->map[i]);
+		check_vertical_line(data, i, len);
 		i++;
-	return (i);
+	}
 }
 
 void	clean_map(t_data ***data)

@@ -55,44 +55,42 @@ void	calculate_step(t_dda *dda, double ray_dir_x, double rary_dir_y,
 	dda->side_dist_y = side_dist_y;
 }
 
-
-
-static void update_dda_values(t_dda *dda, int *side)
+static void	update_dda_values(t_dda *dda, int *side)
 {
-   if (dda->side_dist_x < dda->side_dist_y)
-   {
-       dda->side_dist_x += dda->delta_dist_x;
-       dda->map_x += dda->step_x;
-       *side = 0;
-   }
-   else
-   {
-       dda->side_dist_y += dda->delta_dist_y;
-       dda->map_y += dda->step_y;
-       *side = 1;
-   }
+	if (dda->side_dist_x < dda->side_dist_y)
+	{
+		dda->side_dist_x += dda->delta_dist_x;
+		dda->map_x += dda->step_x;
+		*side = 0;
+	}
+	else
+	{
+		dda->side_dist_y += dda->delta_dist_y;
+		dda->map_y += dda->step_y;
+		*side = 1;
+	}
 }
 
-void    perform_dda(t_data *data, t_dda *dda)
+void	perform_dda(t_data *data, t_dda *dda)
 {
-   int hit;
-   int side;
+	int	hit;
+	int	side;
 
-   hit = 0;
-   side = 0;
-   while (hit == 0)
-   {
-       update_dda_values(dda, &side);
-       if (dda->map_x < 0 || dda->map_y < 0 || dda->map_x >= data->map_width
-           || dda->map_y >= data->map_height || data->map[dda->map_y] == NULL)
-       {
-           hit = 1;
-           break ;
-       }
-       if (data->map[dda->map_y][dda->map_x] == '1')
-           hit = 1;
-   }
-   dda->side = side;
+	hit = 0;
+	side = 0;
+	while (hit == 0)
+	{
+		update_dda_values(dda, &side);
+		if (dda->map_x < 0 || dda->map_y < 0 || dda->map_x >= data->map_width
+			|| dda->map_y >= data->map_height || data->map[dda->map_y] == NULL)
+		{
+			hit = 1;
+			break ;
+		}
+		if (data->map[dda->map_y][dda->map_x] == '1')
+			hit = 1;
+	}
+	dda->side = side;
 }
 /* void	perform_dda(t_data *data, t_dda *dda)
 {

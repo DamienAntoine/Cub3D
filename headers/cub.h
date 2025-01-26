@@ -38,10 +38,10 @@ typedef struct s_texture
 
 typedef struct s_wall_data
 {
-	int x;
-	int line_height;
-	int draw_start;
-	int draw_end;
+	int			x;
+	int			line_height;
+	int			draw_start;
+	int			draw_end;
 }				t_wall_data;
 
 typedef struct s_wall_calc
@@ -113,91 +113,87 @@ typedef struct s_data
 }				t_data;
 
 // check_file.c
-void	check_file(char *file);
+void			check_file(char *file);
 
 // check_map.c
-void	check_map(t_data *data);
+void			check_map(t_data *data);
+int				map_height(char **map);
 
-// config_parser.c
-int		load_texture(t_data *data, t_texture *texture, char *path);
-void	parse_config(t_data *data, char *file);
+// config_parser_1.c
+void			parse_config(t_data *data, char *file);
+
+// config_parser_2.c
+int				load_texture(t_data *data, t_texture *texture, char *path);
+int				parse_rgb(char *line);
+void			cleanup_config(t_data *data, char *line, char **split, int fd);
+int				validate_rgb_value(char **split, int *rgb, int i);
+
 // draw_walls.c
-void	draw_wall(t_data *data, t_dda *dda, int x,
-			double perp_wall_dist);
+void			draw_wall(t_data *data, t_dda *dda, int x,
+					double perp_wall_dist);
 // error.c
-void	exit_error(char *message);
+void			exit_error(char *message);
 
 // free_helpers.c
-void	free_split(char **split);
-void	free_textures(t_data *data);
-void	cleanup_gnl(int fd);
+void			free_split(char **split);
+void			free_textures(t_data *data);
+void			cleanup_gnl(int fd);
 
 // free.c
-void	free_resources(t_data *data);
-void	free_img(t_data *data);
-void	free_map(t_data *data);
-void	free_win(t_data *data);
-void	free_mlx(t_data *data);
+void			free_resources(t_data *data);
+void			free_img(t_data *data);
+void			free_map(t_data *data);
+void			free_win(t_data *data);
+void			free_mlx(t_data *data);
 
 // main.c
-void	init_data(t_data *data);
+void			init_data(t_data *data);
 
 // map_helpers.c
-void	clean_map(t_data ***data);
-void	check_surr_walls(t_data **data);
-int		map_height(char **map);
+void			clean_map(t_data ***data);
+void			check_surr_walls(t_data **data);
 
 // movements.c
-void	mv_fw(t_data *data);
-void	mv_bw(t_data *data);
-void	strafe_left(t_data *data);
-void	strafe_right(t_data *data);
+void			mv_fw(t_data *data);
+void			mv_bw(t_data *data);
+void			strafe_left(t_data *data);
+void			strafe_right(t_data *data);
 
 // parse_map.c
-char	**parse_map(char *map);
+char			**parse_map(char *map);
 
 // pixel_put.c
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 // raycast_helpers.c
-void	init_dda(double ray_dir_x, double ray_dir_y, t_data *data,
-			t_dda *dda);
-void	calculate_step(t_dda *dda, double ray_dir_x, double rary_dir_y,
+void			init_dda(double ray_dir_x, double ray_dir_y, t_data *data,
+					t_dda *dda);
+void			calculate_step(t_dda *dda, double ray_dir_x, double rary_dir_y,
 					t_data *data);
-void	calculate_ray(t_data *data, int x, double *ray_dir_x,
-			double *rary_dir_y);
-void	perform_dda(t_data *data, t_dda *dda);
+void			calculate_ray(t_data *data, int x, double *ray_dir_x,
+					double *rary_dir_y);
+void			perform_dda(t_data *data, t_dda *dda);
 
 // raycasting.c
-void	cast_rays(t_data *data);
+void			cast_rays(t_data *data);
 
 // render.c
-int		key_press(int key, t_data *data);
-int		key_release(int key, t_data *data);
-int		close_win(t_data *data);
-int		render(t_data *data);
+int				key_press(int key, t_data *data);
+int				key_release(int key, t_data *data);
+int				close_win(t_data *data);
+int				render(t_data *data);
 
 // rotate.c
-void	rotate_left(t_data *data);
-void	rotate_right(t_data *data);
+void			rotate_left(t_data *data);
+void			rotate_right(t_data *data);
 
 // texture_mapping.c
-void	draw_floor_ceiling(t_data *data);
+void			draw_floor_ceiling(t_data *data);
 
 // valid_map_elem.c
-void	validate_map_elements(t_data *data);
-
+void			validate_map_elements(t_data *data);
 
 // valid_plyr_pos.c
-void	validate_player_position(t_data *data);
-
-
-
-////////????//void	parse_textures(t_data *data, char **lines);
-
-
-
-
-
+void			validate_player_position(t_data *data);
 
 #endif

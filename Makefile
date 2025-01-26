@@ -19,7 +19,8 @@ SRCS =	./srcs/main.c \
 		./srcs/free.c \
 		./srcs/free_helpers.c \
 		./srcs/error.c \
-		./srcs/config_parser.c \
+		./srcs/config_parser_1.c \
+		./srcs/config_parser_2.c \
 		./srcs/check_file.c \
 		./srcs/texture_mapping.c \
 		./srcs/pixel_put.c \
