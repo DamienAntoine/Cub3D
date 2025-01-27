@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 22:21:17 by sanhwang          #+#    #+#             */
-/*   Updated: 2025/01/26 23:52:43 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:33:16 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
-//# include "cub3d.h"
 
 # define WINDOW_WIDTH 1024
 # define WINDOW_HEIGHT 768
@@ -39,13 +38,15 @@
 
 typedef struct s_minimap
 {
-	int pos_x; // Minimap position on screen
+	int			pos_x;
 	int			pos_y;
-	int width; // Minimap dimensions
+	int			scale;
+	int			border;
+	int			show;
+	int			width;
 	int			height;
-	int scale;  // Size of each cell
-	int border; // Border thickness
-	int show;   // Toggle minimap
+	int			color;
+	int			plyr_color;
 }				t_minimap;
 
 typedef struct s_texture
@@ -140,8 +141,7 @@ typedef struct s_data
 // minimap.c
 void			init_minimap(t_data *data);
 void			draw_minimap(t_data *data);
-void			draw_square(t_data *data, int x, int y, int size, int color);
-
+void			draw_square(t_data *data, int x, int y, int size);
 
 // check_file.c
 void			check_file(char *file);
@@ -164,6 +164,7 @@ void			draw_wall(t_data *data, t_dda *dda, int x,
 					double perp_wall_dist);
 // error.c
 void			exit_error(char *message);
+void			handle_fd_error(t_data *data);
 
 // free_helpers.c
 void			free_split(char **split);
@@ -190,8 +191,15 @@ void			mv_bw(t_data *data);
 void			strafe_left(t_data *data);
 void			strafe_right(t_data *data);
 
-// parse_map.c
+// parse_map_1.c
 char			**parse_map(char *map);
+char			*parse_map_read(char *map);
+char			*handle_file_open(char *map, int fd);
+
+// parse_map_2.c
+char			*parse_map_read_prep(char *map);
+char			*process_map_lines(char *cur_line, char *all_lines);
+int				process_map_configs(char *cur_line, int *config_count);
 
 // pixel_put.c
 void			my_mlx_pixel_put(t_data *data, int x, int y, int color);

@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:52:58 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/26 22:50:54 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:27:16 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,11 @@ static int	process_config_line(t_data *data, char **split, char *line, int fd)
 	return (0);
 }
 
-static void	handle_fd_error(t_data *data)
+/* static void	handle_fd_error(t_data *data)
 {
 	cleanup_config(data, NULL, NULL, -1);
 	exit_error("Error: Cannot open config file");
-}
+} */
 
 void	parse_config(t_data *data, char *file)
 {
@@ -124,7 +124,11 @@ void	parse_config(t_data *data, char *file)
 	{
 		split = ft_split(line, ' ');
 		if (!split)
+		{
+			free(line);
+			line = get_next_line(fd);
 			continue ;
+		}
 		config_done = process_config_line(data, split, line, fd);
 		free(line);
 		free_split(split);

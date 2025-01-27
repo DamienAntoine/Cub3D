@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minimap.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/27 18:06:10 by sanhwang          #+#    #+#             */
+/*   Updated: 2025/01/27 18:06:19 by sanhwang         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/cub3d_bonus.h"
 
 void	init_minimap(t_data *data)
@@ -10,6 +22,10 @@ void	init_minimap(t_data *data)
 	data->minimap.scale = 5;
 	data->minimap.border = 1;
 	data->minimap.show = 1;
+	data->minimap.color = 0xFF00FF;
+	data->minimap.plyr_color = 0xFFFF84;
+	data->minimap.width = data->map_width / 20;
+	data->minimap.height = data->map_height / 20;
 	y = 0;
 	max_x = 0;
 	while (data->map[y])
@@ -22,7 +38,7 @@ void	init_minimap(t_data *data)
 	data->minimap.height = data->map_height / 20;
 }
 
-void	draw_square(t_data *data, int x, int y, int size, int color)
+void	draw_square(t_data *data, int x, int y, int size)
 {
 	int	i;
 	int	j;
@@ -33,7 +49,7 @@ void	draw_square(t_data *data, int x, int y, int size, int color)
 		j = 0;
 		while (j < size)
 		{
-			my_mlx_pixel_put(data, x + i, y + j, color);
+			my_mlx_pixel_put(data, x + i, y + j, data->minimap.color);
 			j++;
 		}
 		i++;
@@ -46,14 +62,14 @@ static void	draw_map_walls(t_data *data, int map_x, int map_y, int scale)
 	int	y;
 
 	y = 0;
+	data->minimap.color = 0xFFFFFF;
 	while (data->map[y])
 	{
 		x = 0;
 		while (data->map[y][x])
 		{
 			if (data->map[y][x] == '1')
-				draw_square(data, map_x + x * scale, map_y + y * scale, scale,
-					0xFFFFFF);
+				draw_square(data, map_x + x * scale, map_y + y * scale, scale);
 			x++;
 		}
 		y++;
@@ -71,10 +87,11 @@ void	draw_minimap(t_data *data)
 	scale = data->minimap.scale;
 	map_x = data->minimap.pos_x;
 	map_y = data->minimap.pos_y;
+	data->minimap.color = 0x440004;
 	draw_square(data, map_x - data->minimap.border, map_y
-		- data->minimap.border, data->minimap.width + 2 * data->minimap.border,
-		0x440004);
+		- data->minimap.border, data->minimap.width + 2 * data->minimap.border);
 	draw_map_walls(data, map_x, map_y, scale);
+	data->minimap.color = data->minimap.plyr_color;
 	draw_square(data, map_x + (int)(data->ray.pos_x * scale), map_y
-		+ (int)(data->ray.pos_y * scale), 5, 0xFF3300);
+		+ (int)(data->ray.pos_y * scale), 5);
 }

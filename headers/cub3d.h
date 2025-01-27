@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:56:32 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/26 23:21:27 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:32:22 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ void			draw_wall(t_data *data, t_dda *dda, int x,
 					double perp_wall_dist);
 // error.c
 void			exit_error(char *message);
+void			handle_fd_error(t_data *data);
 
 // free_helpers.c
 void			free_split(char **split);
@@ -171,8 +172,15 @@ void			mv_bw(t_data *data);
 void			strafe_left(t_data *data);
 void			strafe_right(t_data *data);
 
-// parse_map.c
+// parse_map_1.c
 char			**parse_map(char *map);
+char			*parse_map_read(char *map);
+char			*handle_file_open(char *map, int fd);
+
+// parse_map_2.c
+char			*parse_map_read_prep(char *map);
+char			*process_map_lines(char *cur_line, char *all_lines);
+int				process_map_configs(char *cur_line, int *config_count);
 
 // pixel_put.c
 void			my_mlx_pixel_put(t_data *data, int x, int y, int color);

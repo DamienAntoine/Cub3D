@@ -10,7 +10,8 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 SRCS =	./srcs/main.c \
 		./srcs/render.c \
-		./srcs/parse_map.c \
+		./srcs/parse_map_1.c \
+		./srcs/parse_map_2.c \
 		./srcs/check_map.c \
 		./srcs/map_helpers.c \
 		./srcs/movements.c \
@@ -31,7 +32,8 @@ SRCS =	./srcs/main.c \
 
 BONUS = ./bonus/main.c \
     	./bonus/render.c \
-		./bonus/parse_map.c \
+		./bonus/parse_map_1.c \
+		./bonus/parse_map_2.c \
 		./bonus/check_map.c \
 		./bonus/map_helpers.c \
 		./bonus/movements.c \
