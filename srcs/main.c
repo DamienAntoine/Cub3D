@@ -36,7 +36,7 @@ void	init_data(t_data *data)
 	data->image.img = NULL;
 	data->image.addr = NULL;
 	data->ray.move_speed = 0.025;
-	data->ray.rotate_speed = 0.05;
+	data->ray.rotate_speed = 0.01;
 	initialize_textures(data);
 }
 

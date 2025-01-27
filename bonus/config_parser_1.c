@@ -102,6 +102,12 @@ static int	process_config_line(t_data *data, char **split, char *line, int fd)
 	return (0);
 }
 
+static void	handle_fd_error(t_data *data)
+{
+	cleanup_config(data, NULL, NULL, -1);
+	exit_error("Error: Cannot open config file");
+}
+
 void	parse_config(t_data *data, char *file)
 {
 	int		fd;
@@ -112,21 +118,17 @@ void	parse_config(t_data *data, char *file)
 	config_done = 0;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-	{
-		cleanup_config(data, NULL, NULL, -1);
-		exit_error("Error: Cannot open config file");
-	}
-	while ((line = get_next_line(fd)) && !config_done)
+		handle_fd_error(data);
+	line = get_next_line(fd);
+	while (line && !config_done)
 	{
 		split = ft_split(line, ' ');
 		if (!split)
-		{
-			free(line);
 			continue ;
-		}
 		config_done = process_config_line(data, split, line, fd);
 		free(line);
 		free_split(split);
+		line = get_next_line(fd);
 	}
 	close(fd);
 }

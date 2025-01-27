@@ -16,8 +16,12 @@ void	cleanup_gnl(int fd)
 {
 	char	*line;
 
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line != NULL)
+	{
 		free(line);
+		line = get_next_line(fd);
+	}
 }
 
 void	free_split(char **split)
