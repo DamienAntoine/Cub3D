@@ -57,7 +57,8 @@ char	*parse_map_read_prep(char *map)
 	if (fd < 0 || !all_lines)
 		return (NULL);
 	config_count = 0;
-	while ((cur_line = get_next_line(fd)))
+	cur_line = get_next_line(fd);
+	while (cur_line)
 	{
 		process_map_configs(cur_line, &config_count);
 		if (config_count >= 6)
@@ -69,6 +70,13 @@ char	*parse_map_read_prep(char *map)
 	return (all_lines);
 }
 
+static char	*handle_file_open(char *map, int fd)
+{
+	if (fd < 0)
+		return (NULL);
+	return (parse_map_read_prep(map));
+}
+
 char	*parse_map_read(char *map)
 {
 	char	*cur_line;
@@ -76,22 +84,17 @@ char	*parse_map_read(char *map)
 	int		fd;
 	int		config_count;
 
-	all_lines = parse_map_read_prep(map);
 	fd = open(map, O_RDONLY);
-	if (fd < 0)
-		return (NULL);
+	all_lines = handle_file_open(map, fd);
 	config_count = 0;
-	while ((cur_line = get_next_line(fd)))
+	cur_line = get_next_line(fd);
+	while (cur_line)
 	{
 		process_map_configs(cur_line, &config_count);
-		if (cur_line[0] == '\n' || cur_line[0] == '\0')
-		{
-			free(cur_line);
-			continue ;
-		}
-		if (config_count >= 6)
+		if (cur_line[0] != '\n' && cur_line[0] != '\0' && config_count >= 6)
 			all_lines = process_map_lines(cur_line, all_lines);
 		free(cur_line);
+		cur_line = get_next_line(fd);
 	}
 	cleanup_gnl(fd);
 	close(fd);
