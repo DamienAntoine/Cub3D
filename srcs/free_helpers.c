@@ -12,6 +12,12 @@
 
 #include "../headers/cub3d_bonus.h"
 
+void	free_and_close(char *line, int fd)
+{
+	free(line);
+	close(fd);
+}
+
 void	cleanup_gnl(int fd)
 {
 	char	*line;
@@ -49,4 +55,8 @@ void	free_textures(t_data *data)
 		mlx_destroy_image(data->mlx, data->east.img);
 	if (data->west.img)
 		mlx_destroy_image(data->mlx, data->west.img);
+	free(data->north.path);
+	free(data->south.path);
+	free(data->east.path);
+	free(data->west.path);
 }

@@ -101,6 +101,12 @@ static int	process_config_line(t_data *data, char **split, char *line, int fd)
 	}
 	return (0);
 }
+/* 
+void	free_and_close(char *line, int fd)
+{
+	free(line);
+	close(fd);
+} */
 
 void	parse_config(t_data *data, char *file)
 {
@@ -128,7 +134,7 @@ void	parse_config(t_data *data, char *file)
 		free_split(split);
 		line = get_next_line(fd);
 	}
-	close(fd);
+	free_and_close(line, fd);
 }
 /* void	parse_config(t_data *data, char *file)
 {

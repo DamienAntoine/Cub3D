@@ -134,5 +134,5 @@ void	parse_config(t_data *data, char *file)
 		free_split(split);
 		line = get_next_line(fd);
 	}
-	close(fd);
+	free_and_close(line, fd);
 }
