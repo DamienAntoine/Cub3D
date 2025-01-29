@@ -59,10 +59,7 @@ static void	check_invalid_char(t_data *data, int y, int x)
 		&& data->map[y][x] != 'N' && data->map[y][x] != 'S'
 		&& data->map[y][x] != 'E' && data->map[y][x] != 'W'
 		&& data->map[y][x] != ' ')
-	{
-		printf("Error: Invalid character in map\n");
-		exit(1);
-	}
+		free_and_exit(data, "Error: Invalid character in map\n");
 	if (data->map[y][x] == '0' || ft_strchr("NSEW", data->map[y][x]))
 		check_walls_around(data, y, x);
 }

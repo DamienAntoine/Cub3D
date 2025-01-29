@@ -171,6 +171,7 @@ void			free_split(char **split);
 void			free_textures(t_data *data);
 void			cleanup_gnl(int fd);
 void			free_and_close(char *line, int fd);
+void			free_and_exit(t_data *data, char *msg);
 
 // free.c
 void			free_resources(t_data *data);

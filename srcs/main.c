@@ -75,12 +75,12 @@ int	main(int argc, char **argv)
 	parse_config(&data, argv[1]);
 	data.map = parse_map(argv[1]);
 	if (!data.map)
-		exit_error("Error: Map parsing failed");
+		free_and_exit(&data, "Error: Map parsing failed");
 	init_map_size(&data);
 	check_map(&data);
 	data.win = mlx_new_window(data.mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Cub3D");
 	if (!data.win)
-		exit_error("Window creation failed");
+		free_and_exit(&data, "Window creation failed");
 	mlx_hook(data.win, 2, 1L << 0, key_press, &data);
 	mlx_hook(data.win, 3, 1L << 1, key_release, &data);
 	mlx_hook(data.win, 17, (1L << 0), close_win, &data);

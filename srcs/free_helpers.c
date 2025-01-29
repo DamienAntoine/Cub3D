@@ -12,6 +12,17 @@
 
 #include "../headers/cub3d_bonus.h"
 
+void	free_and_exit(t_data *data, char *msg)
+{
+	free_img(data);
+	free_map(data);
+	free_win(data);
+	free_textures(data);
+	free_mlx(data);
+	printf("%s\n", msg);
+	exit(1);
+}
+
 void	free_and_close(char *line, int fd)
 {
 	free(line);
