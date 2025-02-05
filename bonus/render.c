@@ -6,11 +6,11 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:54:24 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/26 03:57:51 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/01/26 23:15:42 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3d.h"
+#include "../headers/cub3d_bonus.h"
 
 int	key_press(int key, t_data *data)
 {
@@ -28,6 +28,8 @@ int	key_press(int key, t_data *data)
 		data->key_right = 1;
 	else if (key == KEY_ESC)
 		close_win(data);
+	else if (key == 'm' || key == 'M')
+		data->minimap.show = !data->minimap.show;
 	return (0);
 }
 
@@ -94,6 +96,7 @@ int	render(t_data *data)
 	}
 	draw_floor_ceiling(data);
 	cast_rays(data);
+	draw_minimap(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->image.img, 0, 0);
 	return (0);
 }

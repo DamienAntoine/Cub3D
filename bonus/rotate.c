@@ -6,11 +6,11 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:54:28 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/26 03:57:52 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/01/26 22:51:12 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3d.h"
+#include "../headers/cub3d_bonus.h"
 
 void	rotate_right(t_data *data)
 {

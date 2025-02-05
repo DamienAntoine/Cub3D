@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_file.c                                       :+:      :+:    :+:   */
+/*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/26 03:49:45 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/26 03:57:23 by sanhwang         ###   ########.fr       */
+/*   Created: 2025/01/26 03:52:51 by dantoine          #+#    #+#             */
+/*   Updated: 2025/01/26 22:50:52 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3d.h"
+#include "../headers/cub3d_bonus.h"
 
-void	check_file(char *file)
+void	check_map(t_data *data)
 {
-	int	len;
+	validate_player_position(data);
+	validate_map_elements(data);
+	check_surr_walls(&data);
+}
 
-	len = ft_strlen(file);
-	if (len < 4 || ft_strncmp(file + len - 4, ".cub", 4) != 0)
-		exit_error("Error: Invalid file extension (must be .cub)");
+int	map_height(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+		i++;
+	return (i);
 }

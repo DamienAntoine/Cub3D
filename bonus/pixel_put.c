@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_file.c                                       :+:      :+:    :+:   */
+/*   pixel_put.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/26 03:49:45 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/26 03:57:23 by sanhwang         ###   ########.fr       */
+/*   Created: 2025/01/26 03:54:13 by dantoine          #+#    #+#             */
+/*   Updated: 2025/01/26 22:51:09 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3d.h"
+#include "../headers/cub3d_bonus.h"
 
-void	check_file(char *file)
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
-	int	len;
+	char	*dst;
 
-	len = ft_strlen(file);
-	if (len < 4 || ft_strncmp(file + len - 4, ".cub", 4) != 0)
-		exit_error("Error: Invalid file extension (must be .cub)");
+	if (!data || !data->image.addr || x < 0 || y < 0 || x >= WINDOW_WIDTH
+		|| y >= WINDOW_HEIGHT)
+		return ;
+	dst = data->image.addr + (y * data->image.line_length + x
+			* (data->image.bits_p_pxl / 8));
+	*(unsigned int *)dst = color;
 }

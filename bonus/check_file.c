@@ -6,11 +6,11 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:49:45 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/26 03:57:23 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/01/26 22:50:51 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3d.h"
+#include "../headers/cub3d_bonus.h"
 
 void	check_file(char *file)
 {

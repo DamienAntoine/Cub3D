@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 t_tab	*ft_tablast(t_tab *lst)
 {
@@ -99,6 +100,8 @@ void	unmalloc(t_tab **list, t_tab *clean, char *buf)
 {
 	t_tab	*temp;
 
+	if (!list || !*list)
+		return ;
 	while (*list)
 	{
 		temp = (*list)->next;

@@ -6,11 +6,11 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:53:27 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/26 03:57:45 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/01/26 22:51:05 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3d.h"
+#include "../headers/cub3d_bonus.h"
 
 static int	check_walls(char *line)
 {

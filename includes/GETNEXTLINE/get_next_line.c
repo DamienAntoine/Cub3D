@@ -6,12 +6,13 @@
 /*   By: dantoine <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:16:29 by dantoine          #+#    #+#             */
-/*   Updated: 2024/03/18 15:15:51 by dantoine         ###   ########.fr       */
+/*   Updated: 2025/01/26 03:39:57 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
 #include "get_next_line.h"
+#include <limits.h>
+//#include <fcntl.h>
 
 void	cleanlist(t_tab **list)
 {
@@ -88,7 +89,24 @@ char	*get_line(t_tab *list)
 	struct_strcpy(list, nxtline);
 	return (nxtline);
 }
-#include <fcntl.h>
+
+/* void	ft_lstcleartab(t_tab **lst)
+{
+	t_tab	*current;
+	t_tab	*next;
+
+	if (lst == NULL)
+		return ;
+	current = *lst;
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current->str_buf);
+		free(current);
+		current = next;
+	}
+	*lst = NULL;
+} */
 
 char	*get_next_line(int fd)
 {
@@ -96,7 +114,10 @@ char	*get_next_line(int fd)
 	char			*nxtline;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
+	{
+		ft_lstcleartab(&list);
 		return (NULL);
+	}
 	create_lst(&list, fd);
 	if (list == NULL)
 		return (NULL);

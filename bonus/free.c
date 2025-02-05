@@ -6,11 +6,11 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:53:15 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/26 03:57:43 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/01/26 22:51:01 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3d.h"
+#include "../headers/cub3d_bonus.h"
 
 void	free_img(t_data *data)
 {

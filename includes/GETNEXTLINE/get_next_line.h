@@ -35,5 +35,6 @@ void	cleanlist(t_tab **tab);
 char	*get_next_line(int fd);
 void	unmalloc(t_tab **tab, t_tab *clean, char *buf);
 void	create_lst(t_tab **tab, int fd);
+void	ft_lstcleartab(t_tab **lst);
 
 #endif

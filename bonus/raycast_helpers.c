@@ -6,11 +6,11 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:54:17 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/26 03:57:49 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/01/26 22:51:10 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3d.h"
+#include "../headers/cub3d_bonus.h"
 
 void	calculate_ray(t_data *data, int x, double *ray_dir_x,
 		double *rary_dir_y)

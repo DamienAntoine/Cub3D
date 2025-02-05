@@ -6,11 +6,11 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:53:06 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/26 03:57:38 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/01/26 22:50:57 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3d.h"
+#include "../headers/cub3d_bonus.h"
 
 static void	init_wall_draw(int *line_height, int *draw_start, int *draw_end,
 		double perp_wall_dist)

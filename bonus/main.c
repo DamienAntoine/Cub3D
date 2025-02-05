@@ -6,11 +6,11 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:53:18 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/26 03:57:44 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/01/26 23:11:21 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3d.h"
+#include "../headers/cub3d_bonus.h"
 
 static int	initialize_textures(t_data *data)
 {
@@ -36,7 +36,7 @@ void	init_data(t_data *data)
 	data->image.img = NULL;
 	data->image.addr = NULL;
 	data->ray.move_speed = 0.025;
-	data->ray.rotate_speed = 0.01;
+	data->ray.rotate_speed = 0.05;
 	initialize_textures(data);
 }
 
@@ -78,6 +78,7 @@ int	main(int argc, char **argv)
 		free_and_exit(&data, "Error: Map parsing failed");
 	init_map_size(&data);
 	check_map(&data);
+	init_minimap(&data);
 	data.win = mlx_new_window(data.mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Cub3D");
 	if (!data.win)
 		free_and_exit(&data, "Window creation failed");
