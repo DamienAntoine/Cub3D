@@ -99,6 +99,16 @@ typedef struct s_dda
 	double		ray_dir_y;
 }				t_dda;
 
+typedef struct s_tokens
+{
+	int	no;
+	int	so;
+	int	ea;
+	int	we;
+	int	f;
+	int	c;
+}		t_tokens;
+
 typedef struct s_data
 {
 	void		*mlx;
@@ -122,6 +132,7 @@ typedef struct s_data
 	t_texture	west;
 	t_ray		ray;
 	t_img		image;
+	t_tokens	*tokens;
 }				t_data;
 
 // check_file.c

@@ -101,12 +101,48 @@ static int	process_config_line(t_data *data, char **split, char *line, int fd)
 	}
 	return (0);
 }
-/* 
+/*
 void	free_and_close(char *line, int fd)
 {
+	t_tokens	*tokens;
+
 	free(line);
 	close(fd);
 } */
+static void	check_duplicates(char *token, t_data *data, char *line,
+		char **split, int fd)
+{
+	t_tokens	*tokens;
+
+	tokens = data->tokens;
+	if ((!ft_strncmp(token, "NO", 3) && tokens->no) ||
+	(!ft_strncmp(token, "SO", 3) && tokens->so) ||
+	(!ft_strncmp(token, "WE", 3) && tokens->we) ||
+	(!ft_strncmp(token, "EA", 3) && tokens->ea) ||
+	(!ft_strncmp(token, "F", 2) && tokens->f) ||
+	(!ft_strncmp(token, "C", 2) && tokens->c))
+	{
+		cleanup_config(data, line, split, fd);
+		exit_error("Error: Duplicate configuration token");
+	}
+}
+
+static void	save_token_status(char **split, t_data *data, char *line, int fd)
+{
+	check_duplicates(split[0], data, line, split, fd);
+	if (!ft_strncmp(split[0], "NO", 3))
+		data->tokens->no = 1;
+	else if (!ft_strncmp(split[0], "SO", 3))
+		data->tokens->so = 1;
+	else if (!ft_strncmp(split[0], "WE", 3))
+		data->tokens->we = 1;
+	else if (!ft_strncmp(split[0], "EA", 3))
+		data->tokens->ea = 1;
+	else if (!ft_strncmp(split[0], "F", 2))
+		data->tokens->f = 1;
+	else if (!ft_strncmp(split[0], "C", 2))
+		data->tokens->c = 1;
+}
 
 void	parse_config(t_data *data, char *file)
 {
@@ -129,12 +165,14 @@ void	parse_config(t_data *data, char *file)
 			line = get_next_line(fd);
 			continue ;
 		}
+		if (split[0])
+			save_token_status(split, data, line, fd);
 		config_done = process_config_line(data, split, line, fd);
 		free(line);
 		free_split(split);
 		line = get_next_line(fd);
 	}
-	free_and_close(line, fd);
+	close(fd);
 }
 /* void	parse_config(t_data *data, char *file)
 {

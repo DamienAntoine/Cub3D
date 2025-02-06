@@ -1,13 +1,14 @@
+
+
 NO textures/greystone.xpm
 SO textures/purplestone.xpm
 WE textures/redbrick.xpm
 EA textures/eagle.xpm
 
 
-
-
-F 220,100,0
+F 222,100,0
 C 225,30,0
+
 
 11111111111111111111
 10000000000100000001
@@ -19,3 +20,5 @@ C 225,30,0
 10000000000100000001
 10000000000100000001
 11111111111111111111
+
+

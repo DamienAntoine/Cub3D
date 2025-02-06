@@ -35,6 +35,35 @@ int	validate_rgb_value(char **split, int *rgb, int i)
 	return (0);
 }
 
+static int	ft_isspace(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\n' ||
+		c == '\v' || c == '\f' || c == '\r');
+}
+
+static int	is_valid_color_format(char *str)
+{
+	int	i;
+	int	commas;
+
+	i = 0;
+	commas = 0;
+	while (str[i])
+	{
+		if (str[i] == ',')
+		{
+			commas++;
+			if (commas > 2 || !ft_isdigit(str[i + 1]) || !ft_isdigit(str[i
+					- 1]))
+				return (0);
+		}
+		else if (!ft_isdigit(str[i]) && !ft_isspace(str[i]))
+			return (0);
+		i++;
+	}
+	return (commas == 2);
+}
+
 int	parse_rgb(char *line)
 {
 	char	**split;
@@ -42,6 +71,8 @@ int	parse_rgb(char *line)
 	int		i;
 	int		color;
 
+	if (!is_valid_color_format(line))
+		return (-1);
 	split = ft_split(line, ',');
 	if (!split)
 		return (-1);

@@ -31,6 +31,15 @@ void	init_data(t_data *data)
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		exit_error("MLX initialization failed");
+	data->tokens = (t_tokens *)malloc(sizeof(t_tokens));
+	if (!data->tokens)
+		exit_error("Error: Memory allocation failed");
+	data->tokens->no = 0;
+	data->tokens->so = 0;
+	data->tokens->we = 0;
+	data->tokens->ea = 0;
+	data->tokens->f = 0;
+	data->tokens->c = 0;
 	data->win = NULL;
 	data->map = NULL;
 	data->image.img = NULL;
