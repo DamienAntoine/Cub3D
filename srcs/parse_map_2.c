@@ -14,10 +14,17 @@
 
 int	process_map_configs(char *cur_line, int *config_count)
 {
-	if (ft_strncmp(cur_line, "NO ", 3) == 0 || ft_strncmp(cur_line, "SO ",
-			3) == 0 || ft_strncmp(cur_line, "WE ", 3) == 0
-		|| ft_strncmp(cur_line, "EA ", 3) == 0 || ft_strncmp(cur_line, "F ",
-			2) == 0 || ft_strncmp(cur_line, "C ", 2) == 0)
+	if (!cur_line[0] || cur_line[0] == '\n')
+		return (0);
+	if ((!ft_strncmp(cur_line, "NO ", 3) || !ft_strncmp(cur_line, "SO ", 3)
+			|| !ft_strncmp(cur_line, "WE ", 3) || !ft_strncmp(cur_line, "EA ",
+				3)) && ft_strnstr(cur_line, ".xpm", ft_strlen(cur_line)))
+	{
+		(*config_count)++;
+		return (1);
+	}
+	if ((!ft_strncmp(cur_line, "F ", 2) || !ft_strncmp(cur_line, "C ", 2))
+		&& ft_strchr(cur_line, ','))
 	{
 		(*config_count)++;
 		return (1);

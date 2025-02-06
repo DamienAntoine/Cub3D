@@ -86,24 +86,22 @@ static int	check_config_colors(t_data *data, char **split, char *line, int fd)
 
 static int	process_config_line(t_data *data, char **split, char *line, int fd)
 {
-	if (!split)
+	if (!split || !split[0])
 		return (0);
-	if (split[0] && split[1])
-	{
-		if (check_config_textures(data, split, line, fd))
-			;
-		else if (check_config_walls(data, split, line, fd))
-			;
-		else if (check_config_colors(data, split, line, fd))
-			;
-		else if (ft_strchr("01NSEW", split[0][0]))
-			return (1);
-	}
+	if (check_config_textures(data, split, line, fd))
+		return (0);
+	if (check_config_walls(data, split, line, fd))
+		return (0);
+	if (check_config_colors(data, split, line, fd))
+		return (0);
+	if (ft_strchr("01NSEW", split[0][0]))
+		return (1);
 	return (0);
 }
 /*
 void	free_and_close(char *line, int fd)
 {
+	t_tokens	*tokens;
 	t_tokens	*tokens;
 
 	free(line);
@@ -115,12 +113,11 @@ static void	check_duplicates(char *token, t_data *data, char *line,
 	t_tokens	*tokens;
 
 	tokens = data->tokens;
-	if ((!ft_strncmp(token, "NO", 3) && tokens->no) ||
-	(!ft_strncmp(token, "SO", 3) && tokens->so) ||
-	(!ft_strncmp(token, "WE", 3) && tokens->we) ||
-	(!ft_strncmp(token, "EA", 3) && tokens->ea) ||
-	(!ft_strncmp(token, "F", 2) && tokens->f) ||
-	(!ft_strncmp(token, "C", 2) && tokens->c))
+	if ((!ft_strncmp(token, "NO", 3) && tokens->no) || (!ft_strncmp(token, "SO",
+				3) && tokens->so) || (!ft_strncmp(token, "WE", 3) && tokens->we)
+		|| (!ft_strncmp(token, "EA", 3) && tokens->ea) || (!ft_strncmp(token,
+				"F", 2) && tokens->f) || (!ft_strncmp(token, "C", 2)
+			&& tokens->c))
 	{
 		cleanup_config(data, line, split, fd);
 		exit_error("Error: Duplicate configuration token");
@@ -155,22 +152,19 @@ void	parse_config(t_data *data, char *file)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		handle_fd_error(data);
-	line = get_next_line(fd);
-	while (line && !config_done)
+	// Read lines until we detect map start (config_done == 1)
+	while (!config_done && (line = get_next_line(fd)))
 	{
 		split = ft_split(line, ' ');
-		if (!split)
+		if (split && split[0])
 		{
-			free(line);
-			line = get_next_line(fd);
-			continue ;
-		}
-		if (split[0])
+			// Mark token to prevent duplicates, no matter if color or texture
 			save_token_status(split, data, line, fd);
-		config_done = process_config_line(data, split, line, fd);
+			// If this returns 1, we found a map line -> stop config parsing
+			config_done = process_config_line(data, split, line, fd);
+		}
 		free(line);
 		free_split(split);
-		line = get_next_line(fd);
 	}
 	close(fd);
 }
