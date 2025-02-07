@@ -49,6 +49,7 @@ static int	is_valid_map_line(char *line)
 
 static char	*return_error(char *cur_line, char *all_lines, int fd)
 {
+	free(all_lines);
 	printf("Error: Extra lines found after the map.\n");
 	return (NULL);
 }
