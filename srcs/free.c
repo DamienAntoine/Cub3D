@@ -6,11 +6,20 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:53:15 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/26 03:57:43 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/08 14:01:41 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/cub3d.h"
+
+void	free_token(t_data *data)
+{
+	if (data->tokens)
+	{
+		free(data->tokens);
+		data->tokens = NULL;
+	}
+}
 
 void	free_img(t_data *data)
 {
@@ -63,4 +72,5 @@ void	free_resources(t_data *data)
 	free_win(data);
 	free_textures(data);
 	free_mlx(data);
+	free_token(data);
 }
