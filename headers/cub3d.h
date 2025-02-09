@@ -195,6 +195,18 @@ char			*parse_map_read_prep(char *map);
 char			*process_map_lines(char *cur_line, char *all_lines);
 int				process_map_configs(char *cur_line, int *config_count);
 
+// parse_map_helpers.c
+int		is_config_line(const char *line);
+int		is_valid_map_line(char *line);
+char	*return_error(char *all_lines);
+char	*error_invalid_config(char *cur_line, char *all_lines);
+char	*error_invalid_map_line(char *cur_line, char *all_lines);
+
+// parse_map_helpers_2.c
+char	*error_extra_lines(char *cur_line, char *all_lines);
+char	*handle_map_line(char *cur_line, char *all_lines, int *map_started,
+		int *last_valid_line_found, int *map_ended);
+
 // pixel_put.c
 void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
 

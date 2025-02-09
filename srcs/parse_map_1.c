@@ -12,89 +12,74 @@
 
 #include "../headers/cub3d.h"
 
-char	*handle_file_open(char *map, int fd)
+static int	skip_empty_line(char *cur_line, int *map_started, int *map_ended)
 {
-	if (fd < 0)
-		return (NULL);
-	return (parse_map_read_prep(map));
-}
-
-static int	is_config_line(const char *line)
-{
-	if (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3)
-		|| !ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3))
+	if (!cur_line[0] || cur_line[0] == '\n')
+	{
+		if (*map_started && !*map_ended)
+			*map_ended = 1;
+		free(cur_line);
 		return (1);
-	if (!ft_strncmp(line, "F ", 2) || !ft_strncmp(line, "C ", 2))
-		return (1);
+	}
 	return (0);
 }
 
-static int	is_valid_map_line(char *line)
+static char	*handle_config_or_map_line(char *cur_line, char *all_lines,
+		int *config_count, int *map_started, int *last_valid_line_found,
+		int *map_ended)
 {
-	int	i;
-	int	has_wall;
+	char	*tmp;
 
-	i = 0;
-	has_wall = 0;
-	while (line[i])
+	if (*config_count < 6)
 	{
-		if (line[i] == '1' || line[i] == '0' || ft_strchr("NSEW", line[i]))
-			has_wall = 1;
-		else if (line[i] != ' ' && line[i] != '\n')
-			return (0);
-		i++;
+		if (is_config_line(cur_line))
+			process_map_configs(cur_line, config_count);
+		else
+		{
+			all_lines = error_invalid_config(cur_line, all_lines);
+			return (NULL);
+		}
 	}
-	return (has_wall);
-}
-
-static char	*return_error(char *cur_line, char *all_lines, int fd)
-{
-	free(all_lines);
-	printf("Error: Extra lines found after the map.\n");
-	return (NULL);
-}
-
-static char	*handle_map_line(char *cur_line, char *all_lines, int fd,
-		int *map_started, int *last_valid_line_found, int *map_ended)
-{
-	if (*map_ended)
-		return (return_error(cur_line, all_lines, fd));
-	if (!*map_started)
-		*map_started = 1;
-	if (is_valid_map_line(cur_line))
+	else
 	{
-		*last_valid_line_found = 1;
-		return (process_map_lines(cur_line, all_lines));
+		tmp = handle_map_line(cur_line, all_lines, map_started,
+				last_valid_line_found, map_ended);
+		if (!tmp)
+		{
+			if (*map_ended)
+				printf("Error: Extra lines found after the map.\n");
+			else
+				printf("Error: Invalid or unknown map line.\n");
+			return (NULL);
+		}
+		all_lines = tmp;
 	}
-	else if (*last_valid_line_found)
-		return (return_error(cur_line, all_lines, fd));
 	return (all_lines);
 }
 
 static char	*read_map_lines(int fd, char *all_lines)
 {
-	int		config_count = 0, map_started = 0, last_valid_line_found = 0,
-				map_ended;
+	int		config_count;
+	int		map_started;
+	int		last_valid_line_found;
+	int		map_ended;
 	char	*cur_line;
+	char	*tmp;
 
-	config_count = 0, map_started = 0, last_valid_line_found = 0, map_ended = 0;
+	config_count = 0;
+	map_started = 0;
+	last_valid_line_found = 0;
+	map_ended = 0;
 	while ((cur_line = get_next_line(fd)))
 	{
-		if (!cur_line[0] || cur_line[0] == '\n')
-		{
-			if (map_started && !map_ended)
-				map_ended = 1;
-			free(cur_line);
+		if (skip_empty_line(cur_line, &map_started, &map_ended))
 			continue ;
-		}
-		if (config_count < 6 && is_config_line(cur_line))
-			process_map_configs(cur_line, &config_count);
-		else
-			all_lines = handle_map_line(cur_line, all_lines, fd, &map_started,
-					&last_valid_line_found, &map_ended);
+		tmp = handle_config_or_map_line(cur_line, all_lines, &config_count,
+				&map_started, &last_valid_line_found, &map_ended);
 		free(cur_line);
-		if (!all_lines)
+		if (!tmp)
 			return (NULL);
+		all_lines = tmp;
 	}
 	return (all_lines);
 }

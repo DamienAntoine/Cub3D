@@ -37,8 +37,8 @@ int	validate_rgb_value(char **split, int *rgb, int i)
 
 static int	ft_isspace(char c)
 {
-	return (c == ' ' || c == '\t' || c == '\n' ||
-		c == '\v' || c == '\f' || c == '\r');
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r');
 }
 
 static int	is_valid_color_format(char *str)
@@ -54,7 +54,7 @@ static int	is_valid_color_format(char *str)
 		{
 			commas++;
 			if (commas > 2 || !ft_isdigit(str[i + 1]) || !ft_isdigit(str[i
-					- 1]))
+						- 1]))
 				return (0);
 		}
 		else if (!ft_isdigit(str[i]) && !ft_isspace(str[i]))
