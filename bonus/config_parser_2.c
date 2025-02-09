@@ -84,7 +84,6 @@ int	load_texture(t_data *data, t_texture *texture, char *path)
 	if (!texture->addr)
 	{
 		mlx_destroy_image(data->mlx, texture->img);
-		free(texture->path);
 		return (1);
 	}
 	return (0);
