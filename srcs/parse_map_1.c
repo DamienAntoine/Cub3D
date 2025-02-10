@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:53:34 by dantoine          #+#    #+#             */
-/*   Updated: 2025/02/10 14:28:52 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/10 23:18:49 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ static char	*read_map_lines(int fd, char *all_lines)
 		if (!tmp)
 		{
 			free(map_info);
+			free(all_lines);
 			cleanup_gnl(fd);
 			return (NULL);
 		}
