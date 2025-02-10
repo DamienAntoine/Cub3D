@@ -28,7 +28,9 @@ SRCS =	./srcs/main.c \
 		./srcs/pixel_put.c \
 		./srcs/draw_walls.c \
 		./srcs/valid_map_elem.c \
-		./srcs/valid_plyr_pos.c
+		./srcs/valid_plyr_pos.c \
+		./srcs/parse_map_helpers.c \
+		./srcs/parse_map_helpers_2.c
 
 BONUS = ./bonus/main_bonus.c \
     	./bonus/render_bonus.c \
