@@ -30,8 +30,8 @@ SRCS =	./srcs/main.c \
 		./srcs/valid_map_elem.c \
 		./srcs/valid_plyr_pos.c
 
-BONUS = ./bonus/main.c \
-    	./bonus/render.c \
+BONUS = ./bonus/main_bonus.c \
+    	./bonus/render_bonus.c \
 		./bonus/parse_map_1.c \
 		./bonus/parse_map_2.c \
 		./bonus/check_map.c \
