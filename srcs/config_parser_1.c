@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:52:58 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/27 18:31:01 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:31:30 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,7 @@ static int	process_config_line(t_data *data, char **split, char *line, int fd)
 		return (1);
 	return (0);
 }
-/*
-void	free_and_close(char *line, int fd)
-{
-	t_tokens	*tokens;
-	t_tokens	*tokens;
 
-	free(line);
-	close(fd);
-} */
 static void	check_duplicates(char *token, t_data *data, char *line,
 		char **split, int fd)
 {
@@ -152,15 +144,12 @@ void	parse_config(t_data *data, char *file)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		handle_fd_error(data);
-	// Read lines until we detect map start (config_done == 1)
 	while (!config_done && (line = get_next_line(fd)))
 	{
 		split = ft_split(line, ' ');
 		if (split && split[0])
 		{
-			// Mark token to prevent duplicates, no matter if color or texture
 			save_token_status(split, data, line, fd);
-			// If this returns 1, we found a map line -> stop config parsing
 			config_done = process_config_line(data, split, line, fd);
 		}
 		free(line);
@@ -168,32 +157,3 @@ void	parse_config(t_data *data, char *file)
 	}
 	close(fd);
 }
-/* void	parse_config(t_data *data, char *file)
-{
-	int		fd;
-	char	*line;
-	char	**split;
-	int		config_done;
-
-	config_done = 0;
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-	{
-		cleanup_config(data, NULL, NULL, -1);
-		exit_error("Error: Cannot open config file");
-	}
-	while ((line = get_next_line(fd)) && !config_done)
-	{
-		split = ft_split(line, ' ');
-		if (!split)
-		{
-			free(line);
-			line = get_next_line(fd);
-			continue ;
-		}
-		config_done = process_config_line(data, split, line, fd);
-		free(line);
-		free_split(split);
-	}
-	close(fd);
-} */

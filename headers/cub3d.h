@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:56:32 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/27 18:32:22 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:39:03 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,10 @@ void			parse_config(t_data *data, char *file);
 // config_parser_2.c
 int				load_texture(t_data *data, t_texture *texture, char *path);
 int				parse_rgb(char *line);
-void			cleanup_config(t_data *data, char *line, char **split, int fd);
 int				validate_rgb_value(char **split, int *rgb, int i);
+
+// config_parser_3.c
+void			cleanup_config(t_data *data, char *line, char **split, int fd);
 
 // draw_walls.c
 void			draw_wall(t_data *data, t_dda *dda, int x,
@@ -158,12 +160,15 @@ void			draw_wall(t_data *data, t_dda *dda, int x,
 void			exit_error(char *message);
 void			handle_fd_error(t_data *data);
 
-// free_helpers.c
+// free_helpers_1.c
 void			free_split(char **split);
 void			free_textures(t_data *data);
 void			cleanup_gnl(int fd);
 void			free_and_close(char *line, int fd);
 void			free_and_exit(t_data *data, char *msg);
+
+// free_helpers_2.c
+void	free_token(t_data *data);
 
 // free.c
 void			free_resources(t_data *data);

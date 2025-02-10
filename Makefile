@@ -19,10 +19,12 @@ SRCS =	./srcs/main.c \
 		./srcs/raycasting.c \
 		./srcs/raycast_helpers.c \
 		./srcs/free.c \
-		./srcs/free_helpers.c \
+		./srcs/free_helpers_1.c \
+		./srcs/free_helpers_2.c \
 		./srcs/error.c \
 		./srcs/config_parser_1.c \
 		./srcs/config_parser_2.c \
+		./srcs/config_parser_3.c \
 		./srcs/check_file.c \
 		./srcs/texture_mapping.c \
 		./srcs/pixel_put.c \

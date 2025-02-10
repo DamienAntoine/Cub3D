@@ -6,13 +6,13 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:53:01 by dantoine          #+#    #+#             */
-/*   Updated: 2025/01/26 03:57:37 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:38:31 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/cub3d.h"
 
-void	cleanup_config(t_data *data, char *line, char **split, int fd)
+/* void	cleanup_config(t_data *data, char *line, char **split, int fd)
 {
 	if (line)
 		free(line);
@@ -22,7 +22,7 @@ void	cleanup_config(t_data *data, char *line, char **split, int fd)
 		close(fd);
 	get_next_line(-1);
 	free_resources(data);
-}
+} */
 
 int	validate_rgb_value(char **split, int *rgb, int i)
 {
