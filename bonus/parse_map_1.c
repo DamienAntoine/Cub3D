@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:53:34 by dantoine          #+#    #+#             */
-/*   Updated: 2025/02/06 22:06:26 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/10 23:10:10 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int is_valid_map_line(char *line)
 	while (line[i])
 	{
 		if (line[i] == '1' || line[i] == '0' || ft_strchr("NSEW", line[i])) 
-			has_wall = 1; // Found at least one valid map character
+			has_wall = 1;
 		else if (line[i] != ' ' && line[i] != '\n')
-			return (0); // If it contains anything else, it's junk
+			return (0);
 		i++;
 	}
-	return (has_wall); // Returns 1 only if there's at least one valid map character
+	return (has_wall);
 }
 
 char	*parse_map_read(char *map)
@@ -46,15 +46,13 @@ char	*parse_map_read(char *map)
 
 	fd = open(map, O_RDONLY);
 	if (fd < 0)
-		return (NULL); // Handle invalid file
-
+		return (NULL);
 	all_lines = handle_file_open(map, fd);
 	if (!all_lines)
 	{
 		close(fd);
 		return (NULL);
 	}
-
 	config_count = 0;
 	map_started = 0;
 	last_valid_line_found = 0;
@@ -62,20 +60,14 @@ char	*parse_map_read(char *map)
 	while (cur_line)
 	{
 		process_map_configs(cur_line, &config_count);
-
-		// Detect the start of the map (after configs)
 		if (config_count >= 6 && !map_started)
 			map_started = 1;
-
-		// If map has started, process the lines
 		if (map_started)
 		{
-			// If it's a valid map line (contains '1' or '0' or NSEW), mark it
 			if (is_valid_map_line(cur_line))
 				last_valid_line_found = 1;
 			else if (last_valid_line_found) 
 			{
-				// If we already found a valid map line and now get junk -> ERROR
 				free(cur_line);
 				free(all_lines);
 				close(fd);
