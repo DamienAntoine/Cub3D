@@ -10,6 +10,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 SRCS =	./srcs/main.c \
 		./srcs/render.c \
+		./srcs/parse_map_0.c \
 		./srcs/parse_map_1.c \
 		./srcs/parse_map_2.c \
 		./srcs/check_map.c \
@@ -22,6 +23,7 @@ SRCS =	./srcs/main.c \
 		./srcs/free_helpers_1.c \
 		./srcs/free_helpers_2.c \
 		./srcs/error.c \
+		./srcs/config_parser_0.c \
 		./srcs/config_parser_1.c \
 		./srcs/config_parser_2.c \
 		./srcs/config_parser_3.c \

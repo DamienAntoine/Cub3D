@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:56:32 by dantoine          #+#    #+#             */
-/*   Updated: 2025/02/10 11:39:03 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/10 13:23:33 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,16 @@
 # define KEY_Q 113
 # define KEY_ESC 65307
 # define PATH_MAX 200
+
+typedef struct s_map_info
+{
+	int			config_count;
+	int			map_started;
+	int			last_valid_line_found;
+	int			map_ended;
+}				t_map_info;
+
+
 
 typedef struct s_texture
 {
@@ -101,13 +111,13 @@ typedef struct s_dda
 
 typedef struct s_tokens
 {
-	int	no;
-	int	so;
-	int	ea;
-	int	we;
-	int	f;
-	int	c;
-}		t_tokens;
+	int			no;
+	int			so;
+	int			ea;
+	int			we;
+	int			f;
+	int			c;
+}				t_tokens;
 
 typedef struct s_data
 {
@@ -135,6 +145,14 @@ typedef struct s_data
 	t_tokens	*tokens;
 }				t_data;
 
+typedef struct s_config
+{
+	t_data		*data;
+	char		*line;
+	char		**split;
+	int			fd;
+}				t_config;
+
 // check_file.c
 void			check_file(char *file);
 
@@ -142,8 +160,28 @@ void			check_file(char *file);
 void			check_map(t_data *data);
 int				map_height(char **map);
 
-// config_parser_1.c
+// config_parser_0.c
 void			parse_config(t_data *data, char *file);
+void			save_token_status(t_config *config);
+void			check_duplicates(t_config *config);
+
+// config_parser_1.c
+int				process_config_line(t_config *config);
+int				check_config_colors(t_config *config);
+int				check_config_walls(t_config *config);
+int				check_config_textures(t_config *config);
+/* void			save_token_status(char **split, t_data *data, char *line,
+					int fd);
+void			check_duplicates(char *token, t_data *data, char *line,
+					char **split, int fd);
+int				process_config_line(t_data *data, char **split, char *line,
+					int fd);
+int				check_config_colors(t_data *data, char **split, char *line,
+					int fd);
+int				check_config_walls(t_data *data, char **split, char *line,
+					int fd);
+int				check_config_textures(t_data *data, char **split, char *line,
+					int fd); */
 
 // config_parser_2.c
 int				load_texture(t_data *data, t_texture *texture, char *path);
@@ -168,7 +206,7 @@ void			free_and_close(char *line, int fd);
 void			free_and_exit(t_data *data, char *msg);
 
 // free_helpers_2.c
-void	free_token(t_data *data);
+void			free_token(t_data *data);
 
 // free.c
 void			free_resources(t_data *data);
@@ -190,8 +228,11 @@ void			mv_bw(t_data *data);
 void			strafe_left(t_data *data);
 void			strafe_right(t_data *data);
 
-// parse_map_1.c
+// parse_map_0.c
+t_map_info		*init_map_info(void);
 char			**parse_map(char *map);
+
+// parse_map_1.c
 char			*parse_map_read(char *map);
 char			*handle_file_open(char *map, int fd);
 
@@ -201,16 +242,16 @@ char			*process_map_lines(char *cur_line, char *all_lines);
 int				process_map_configs(char *cur_line, int *config_count);
 
 // parse_map_helpers.c
-int		is_config_line(const char *line);
-int		is_valid_map_line(char *line);
-char	*return_error(char *all_lines);
-char	*error_invalid_config(char *cur_line, char *all_lines);
-char	*error_invalid_map_line(char *cur_line, char *all_lines);
+int				is_config_line(const char *line);
+int				is_valid_map_line(char *line);
+char			*return_error(char *all_lines);
+char			*error_invalid_config(char *cur_line, char *all_lines);
+char			*error_invalid_map_line(char *cur_line, char *all_lines);
 
 // parse_map_helpers_2.c
-char	*error_extra_lines(char *cur_line, char *all_lines);
-char	*handle_map_line(char *cur_line, char *all_lines, int *map_started,
-		int *last_valid_line_found, int *map_ended);
+char			*error_extra_lines(char *cur_line, char *all_lines);
+char			*handle_map_line(char *cur_line, char *all_lines,
+					t_map_info *map_info);
 
 // pixel_put.c
 void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
