@@ -49,8 +49,9 @@ char	*return_error(char *all_lines)
 
 char	*error_invalid_config(char *cur_line, char *all_lines)
 {
-	free(cur_line);
-	free(all_lines);
+	if (all_lines)
+		free(all_lines);
+	get_next_line(-1);
 	printf("Error: Invalid or unknown config line.\n");
 	return (NULL);
 }
@@ -59,6 +60,7 @@ char	*error_invalid_map_line(char *cur_line, char *all_lines)
 {
 	free(cur_line);
 	free(all_lines);
+	get_next_line(-1);
 	printf("Error: Invalid or unknown map line.\n");
 	return (NULL);
 }

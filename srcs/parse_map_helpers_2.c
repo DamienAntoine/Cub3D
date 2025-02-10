@@ -16,6 +16,7 @@ char	*error_extra_lines(char *cur_line, char *all_lines)
 {
 	free(cur_line);
 	free(all_lines);
+	get_next_line(-1);
 	printf("Error: Extra lines found after the map.\n");
 	return (NULL);
 }
@@ -23,7 +24,10 @@ char	*error_extra_lines(char *cur_line, char *all_lines)
 char	*handle_map_line(char *cur_line, char *all_lines, t_map_info *map_info)
 {
 	if (map_info->map_ended)
+	{
+		free(all_lines);
 		return (NULL);
+	}
 	if (!map_info->map_started)
 		map_info->map_started = 1;
 	if (is_valid_map_line(cur_line))
@@ -32,7 +36,10 @@ char	*handle_map_line(char *cur_line, char *all_lines, t_map_info *map_info)
 		return (process_map_lines(cur_line, all_lines));
 	}
 	else if (map_info->last_valid_line_found)
+	{
+		free(all_lines);
 		return (NULL);
+	}
 	return (NULL);
 }
 /* char	*handle_map_line(char *cur_line, char *all_lines, int *map_started,

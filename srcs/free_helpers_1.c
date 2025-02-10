@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3d_bonus.h"
+#include "../headers/cub3d.h"
 
 void	free_and_exit(t_data *data, char *msg)
 {
@@ -19,6 +19,11 @@ void	free_and_exit(t_data *data, char *msg)
 	free_win(data);
 	free_textures(data);
 	free_mlx(data);
+	if (data->tokens)
+	{
+		free(data->tokens);
+		data->tokens = NULL;
+	}
 	printf("%s\n", msg);
 	exit(1);
 }
@@ -34,11 +39,12 @@ void	cleanup_gnl(int fd)
 	char	*line;
 
 	line = get_next_line(fd);
-	while (line != NULL)
+	while (line)
 	{
 		free(line);
 		line = get_next_line(fd);
 	}
+	get_next_line(-1);
 }
 
 void	free_split(char **split)

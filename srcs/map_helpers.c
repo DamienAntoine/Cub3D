@@ -102,6 +102,7 @@ void	clean_map(t_data ***data)
 		free((**data)->map);
 		(**data)->map = NULL;
 	}
+	get_next_line(-1);
 	free_resources(**data);
 	exit(1);
 }

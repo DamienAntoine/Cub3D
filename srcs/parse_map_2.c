@@ -62,7 +62,11 @@ char	*parse_map_read_prep(char *map)
 	all_lines = ft_strdup("");
 	fd = open(map, O_RDONLY);
 	if (fd < 0 || !all_lines)
+	{
+		if (all_lines)
+			free(all_lines);
 		return (NULL);
+	}
 	config_count = 0;
 	cur_line = get_next_line(fd);
 	while (cur_line)

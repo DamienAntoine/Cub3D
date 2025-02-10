@@ -39,27 +39,31 @@ static char	*process_config_or_error(char *cur_line, char *all_lines,
 static char	*handle_config_or_map_line(char *cur_line, char *all_lines,
 		t_map_info *map_info)
 {
-	char	*tmp;
-
 	if (map_info->config_count < 6)
-		return (process_config_or_error(cur_line, all_lines, map_info));
-	tmp = handle_map_line(cur_line, all_lines, map_info);
-	if (!tmp)
 	{
-		if (map_info->map_ended)
-			printf("Error: Extra lines found after the map.\n");
-		else
-			printf("Error: Invalid or unknown map line.\n");
+		if (is_config_line(cur_line))
+		{
+			process_map_configs(cur_line, &map_info->config_count);
+			return (all_lines);
+		}
+		if (all_lines)
+			free(all_lines);
+		get_next_line(-1);
+		printf("Error: Invalid configuration line\n");
 		return (NULL);
 	}
-	return (tmp);
+	return (handle_map_line(cur_line, all_lines, map_info));
 }
 
-/* 
+/*
 static char	*handle_config_or_map_line(char *cur_line, char *all_lines,
 		t_map_info *map_info)
 {
-	char	*tmp;
+	char		*tmp;
+	char		*tmp;
+	t_map_info	*map_info;
+	char		*cur_line;
+	char		*tmp;
 
 	if (map_info->config_count < 6)
 	{
@@ -87,14 +91,11 @@ static char	*handle_config_or_map_line(char *cur_line, char *all_lines,
 	}
 	return (all_lines);
 } */
-
-/* 
+/*
 static char	*handle_config_or_map_line(char *cur_line, char *all_lines,
 		int *config_count, int *map_started, int *last_valid_line_found,
 		int *map_ended)
 {
-	char	*tmp;
-
 	if (*config_count < 6)
 	{
 		if (is_config_line(cur_line))
@@ -121,7 +122,6 @@ static char	*handle_config_or_map_line(char *cur_line, char *all_lines,
 	}
 	return (all_lines);
 } */
-
 static char	*read_map_lines(int fd, char *all_lines)
 {
 	t_map_info	*map_info;
@@ -130,7 +130,11 @@ static char	*read_map_lines(int fd, char *all_lines)
 
 	map_info = init_map_info();
 	if (!map_info)
+	{
+		free(all_lines);
+		cleanup_gnl(fd);
 		return (NULL);
+	}
 	while ((cur_line = get_next_line(fd)))
 	{
 		if (skip_empty_line(cur_line, &map_info->map_started,
@@ -141,11 +145,13 @@ static char	*read_map_lines(int fd, char *all_lines)
 		if (!tmp)
 		{
 			free(map_info);
+			cleanup_gnl(fd);
 			return (NULL);
 		}
 		all_lines = tmp;
 	}
 	free(map_info);
+	cleanup_gnl(fd);
 	return (all_lines);
 }
 
@@ -183,15 +189,25 @@ char	*parse_map_read(char *map)
 
 	fd = open(map, O_RDONLY);
 	if (fd < 0)
+	{
+		get_next_line(-1);
 		exit_error("Error: cannot open file");
+	}
 	all_lines = handle_file_open(map, fd);
 	if (!all_lines)
 	{
+		get_next_line(-1);
+		cleanup_gnl(fd);
 		close(fd);
 		return (NULL);
 	}
 	all_lines = read_map_lines(fd, all_lines);
-	close(fd);
+	if (!all_lines)
+	{
+		get_next_line(-1);
+		return (NULL);
+	}
 	cleanup_gnl(fd);
+	close(fd);
 	return (all_lines);
 }

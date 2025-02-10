@@ -20,6 +20,7 @@ void	exit_error(char *message)
 
 void	handle_fd_error(t_data *data)
 {
+	get_next_line(-1);
 	cleanup_config(data, NULL, NULL, -1);
 	exit_error("Error: Cannot open config file");
 }
