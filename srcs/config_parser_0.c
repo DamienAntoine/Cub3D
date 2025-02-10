@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 12:32:13 by sanhwang          #+#    #+#             */
-/*   Updated: 2025/02/10 13:17:30 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:22:58 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,86 @@ void	save_token_status(t_config *config)
 	else if (!ft_strncmp(split[0], "C", 2))
 		data->tokens->c = 1;
 } */
+void	init_config(t_config *config, t_data *data, int fd)
+{
+	config->data = data;
+	config->line = NULL;
+	config->split = NULL;
+	config->fd = fd;
+}
+
+int	process_config_entry(t_config *config, char *line, char **split)
+{
+	if (!split || !split[0])
+		return (0);
+	config->line = line;
+	config->split = split;
+	save_token_status(config);
+	return (process_config_line(config));
+}
 
 void	parse_config(t_data *data, char *file)
+{
+	int			config_done;
+	char		*line;
+	char		**split;
+	t_config	config;
+	int			fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		handle_fd_error(data);
+	init_config(&config, data, fd);
+	config_done = 0;
+	line = get_next_line(fd);
+	while (!config_done && line)
+	{
+		split = ft_split(line, ' ');
+		config_done = process_config_entry(&config, line, split);
+		free(line);
+		free_split(split);
+		line = get_next_line(fd);
+	}
+	if (line)
+		free(line);
+	close(fd);
+}
+
+/* 
+void	parse_config(t_data *data, char *file)
+{
+	int			config_done;
+	char		*line;
+	char		**split;
+	t_config	config;
+	int			fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		handle_fd_error(data);
+	init_config(&config, data, fd);
+	config_done = 0;
+	line = get_next_line(fd);
+	while (!config_done && line)
+	{
+		split = ft_split(line, ' ');
+		if (split && split[0])
+		{
+			config.line = line;
+			config.split = split;
+			save_token_status(&config);
+			config_done = process_config_line(&config);
+		}
+		free(line);
+		free_split(split);
+		line = get_next_line(fd);
+	}
+	if (line)
+		free(line);
+	close(fd);
+}
+ */
+/* void	parse_config(t_data *data, char *file)
 {
 	int			fd;
 	char		*line;
@@ -114,7 +192,7 @@ void	parse_config(t_data *data, char *file)
 	if (line)
 		free(line);
 	close(fd);
-}
+} */
 
 /* void	parse_config(t_data *data, char *file)
 {

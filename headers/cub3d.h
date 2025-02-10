@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:56:32 by dantoine          #+#    #+#             */
-/*   Updated: 2025/02/10 13:23:33 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:30:31 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ typedef struct s_map_info
 	int			last_valid_line_found;
 	int			map_ended;
 }				t_map_info;
-
-
 
 typedef struct s_texture
 {
@@ -170,18 +168,6 @@ int				process_config_line(t_config *config);
 int				check_config_colors(t_config *config);
 int				check_config_walls(t_config *config);
 int				check_config_textures(t_config *config);
-/* void			save_token_status(char **split, t_data *data, char *line,
-					int fd);
-void			check_duplicates(char *token, t_data *data, char *line,
-					char **split, int fd);
-int				process_config_line(t_data *data, char **split, char *line,
-					int fd);
-int				check_config_colors(t_data *data, char **split, char *line,
-					int fd);
-int				check_config_walls(t_data *data, char **split, char *line,
-					int fd);
-int				check_config_textures(t_data *data, char **split, char *line,
-					int fd); */
 
 // config_parser_2.c
 int				load_texture(t_data *data, t_texture *texture, char *path);
