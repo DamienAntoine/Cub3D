@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:53:34 by dantoine          #+#    #+#             */
-/*   Updated: 2025/02/10 23:10:10 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/06 22:06:26 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int is_valid_map_line(char *line)
 
 	while (line[i])
 	{
-		if (line[i] == '1' || line[i] == '0' || ft_strchr("NSEW", line[i])) 
-			has_wall = 1;
+		if (line[i] == '1' || line[i] == '0' || ft_strchr("NSEW", line[i]))
+			has_wall = 1; // Found at least one valid map character
 		else if (line[i] != ' ' && line[i] != '\n')
-			return (0);
+			return (0); // If it contains anything else, it's junk
 		i++;
 	}
-	return (has_wall);
+	return (has_wall); // Returns 1 only if there's at least one valid map character
 }
 
 char	*parse_map_read(char *map)
@@ -46,13 +46,15 @@ char	*parse_map_read(char *map)
 
 	fd = open(map, O_RDONLY);
 	if (fd < 0)
-		return (NULL);
+		return (NULL); // Handle invalid file
+
 	all_lines = handle_file_open(map, fd);
 	if (!all_lines)
 	{
 		close(fd);
 		return (NULL);
 	}
+
 	config_count = 0;
 	map_started = 0;
 	last_valid_line_found = 0;
@@ -66,7 +68,7 @@ char	*parse_map_read(char *map)
 		{
 			if (is_valid_map_line(cur_line))
 				last_valid_line_found = 1;
-			else if (last_valid_line_found) 
+			else if (last_valid_line_found)
 			{
 				free(cur_line);
 				free(all_lines);

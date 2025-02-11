@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 18:11:34 by sanhwang          #+#    #+#             */
-/*   Updated: 2025/02/10 22:48:29 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:15:11 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ char	*parse_map_read_prep(char *map)
 
 	all_lines = ft_strdup("");
 	fd = open(map, O_RDONLY);
-	if (fd < 0 || !all_lines)
-	{
-		if (all_lines)
-			free(all_lines);
-		return (NULL);
-	}
+  	if (fd < 0 || !all_lines) // Check for error in file open or strdup failure
+    {
+        if (all_lines)
+            free(all_lines);  // Ensure it's freed
+        return (NULL);
+    }
 	config_count = 0;
 	cur_line = get_next_line(fd);
 	while (cur_line)
@@ -79,10 +79,10 @@ char	*parse_map_read_prep(char *map)
 	}
 	cleanup_gnl(fd);
 	close(fd);
-	if (!all_lines || config_count < 6)
-	{
-		free(all_lines);
-		return (NULL);
-	}
+ if (!all_lines || config_count < 6)  // Ensure empty string is freed on error
+    {
+        free(all_lines);  // Free the empty string memory
+        return (NULL);  // Return NULL if no valid lines are processed
+    }
 	return (all_lines);
 }

@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:53:34 by dantoine          #+#    #+#             */
-/*   Updated: 2025/02/10 23:24:36 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/10 22:32:50 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,57 +46,15 @@ static char	*handle_config_or_map_line(char *cur_line, char *all_lines,
 			process_map_configs(cur_line, &map_info->config_count);
 			return (all_lines);
 		}
-		if(all_lines)
-			free(all_lines);
-	//	all_lines = NULL;
+		all_lines = NULL;
 		get_next_line(-1);
 		printf("Error: Invalid configuration line\n");
 		return (NULL);
 	}
 	return (handle_map_line(cur_line, all_lines, map_info));
 }
+
 static char	*read_map_lines(int fd, char *all_lines)
-{
-	t_map_info	*map_info;
-	char		*cur_line;
-	char		*tmp;
-
-	map_info = init_map_info();
-	if (!map_info)
-	{
-		free(all_lines);
-		cleanup_gnl(fd);
-		return (NULL);
-	}
-	cur_line = get_next_line(fd); // Initialize before entering the loop
-	while (cur_line)
-	{
-		if (skip_empty_line(cur_line, &map_info->map_started,
-				&map_info->map_ended))
-		{
-			free(cur_line);
-			cur_line = get_next_line(fd);
-			continue;
-		}
-		tmp = handle_config_or_map_line(cur_line, all_lines, map_info);
-		free(cur_line);
-		if (!tmp)
-		{
-			free(map_info);
-			cleanup_gnl(fd);
-			free(all_lines);
-			return (NULL);
-		}
-		all_lines = tmp;
-		cur_line = get_next_line(fd); // Get the next line at the end of the loop
-	}
-	free(map_info);
-	cleanup_gnl(fd);
-	return (all_lines);
-}
-
-
-/* static char	*read_map_lines(int fd, char *all_lines)
 {
 	t_map_info	*map_info;
 	char		*cur_line;
@@ -119,7 +77,6 @@ static char	*read_map_lines(int fd, char *all_lines)
 		if (!tmp)
 		{
 			free(map_info);
-			free(all_lines);
 			cleanup_gnl(fd);
 			free(all_lines);
 			return (NULL);
@@ -129,7 +86,7 @@ static char	*read_map_lines(int fd, char *all_lines)
 	free(map_info);
 	cleanup_gnl(fd);
 	return (all_lines);
-} */
+}
 
 char	*parse_map_read(char *map)
 {
@@ -151,12 +108,12 @@ char	*parse_map_read(char *map)
 		return (NULL);
 	}
 	all_lines = read_map_lines(fd, all_lines);
+	cleanup_gnl(fd);
+	close(fd);
 	if (!all_lines)
 	{
 		get_next_line(-1);
 		return (NULL);
 	}
-	cleanup_gnl(fd);
-	close(fd);
 	return (all_lines);
 }

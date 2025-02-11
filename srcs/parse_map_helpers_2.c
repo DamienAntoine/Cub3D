@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:31:39 by dantoine          #+#    #+#             */
-/*   Updated: 2025/02/10 23:06:27 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:07:15 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*handle_map_line(char *cur_line, char *all_lines, t_map_info *map_info)
 {
 	if (map_info->map_ended)
 	{
-		free(all_lines);
+		printf("Error: Extra lines found after the map.\n");
 		return (NULL);
 	}
 	if (!map_info->map_started)
@@ -37,7 +37,7 @@ char	*handle_map_line(char *cur_line, char *all_lines, t_map_info *map_info)
 	}
 	else if (map_info->last_valid_line_found)
 	{
-		free(all_lines);
+		printf("Error: Invalid line after map content.\n");
 		return (NULL);
 	}
 	return (NULL);
