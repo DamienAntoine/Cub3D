@@ -6,11 +6,11 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:54:58 by dantoine          #+#    #+#             */
-/*   Updated: 2025/02/11 22:45:04 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/11 22:50:40 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3d.h"
+#include "../headers/cub3d_bonus.h"
 
 static void	set_north_south_direction(t_data *data, char dir)
 {

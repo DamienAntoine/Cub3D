@@ -6,11 +6,11 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:54:54 by dantoine          #+#    #+#             */
-/*   Updated: 2025/02/11 22:45:14 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/11 22:50:37 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3d.h"
+#include "../headers/cub3d_bonus.h"
 
 static void	get_map_dimensions(t_data *data, int *height, int *max_width)
 {

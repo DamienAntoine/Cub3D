@@ -39,36 +39,35 @@ SRCS =	./srcs/main.c \
 BONUS = ./bonus/main_bonus.c \
 		./bonus/render_bonus.c \
 		./bonus/minimap.c \
-		./srcs/parse_map_0.c \
-		./srcs/parse_map_1.c \
-		./srcs/parse_map_2.c \
-		./srcs/check_map.c \
-		./srcs/map_helpers.c \
-		./srcs/movements.c \
-		./srcs/rotate.c \
-		./srcs/raycasting.c \
-		./srcs/raycast_helpers.c \
-		./srcs/free.c \
-		./srcs/free_helpers_1.c \
-		./srcs/free_helpers_2.c \
-		./srcs/error.c \
-		./srcs/config_parser_0.c \
-		./srcs/config_parser_1.c \
-		./srcs/config_parser_2.c \
-		./srcs/config_parser_3.c \
-		./srcs/check_file.c \
-		./srcs/texture_mapping.c \
-		./srcs/pixel_put.c \
-		./srcs/draw_walls.c \
-		./srcs/valid_map_elem.c \
-		./srcs/valid_plyr_pos.c \
-		./srcs/parse_map_helpers.c \
-		./srcs/parse_map_helpers_2.c
+		./bonus/parse_map_0.c \
+		./bonus/parse_map_1.c \
+		./bonus/parse_map_2.c \
+		./bonus/check_map.c \
+		./bonus/map_helpers.c \
+		./bonus/movements.c \
+		./bonus/rotate.c \
+		./bonus/raycasting.c \
+		./bonus/raycast_helpers.c \
+		./bonus/free.c \
+		./bonus/free_helpers_1.c \
+		./bonus/free_helpers_2.c \
+		./bonus/error.c \
+		./bonus/config_parser_0.c \
+		./bonus/config_parser_1.c \
+		./bonus/config_parser_2.c \
+		./bonus/config_parser_3.c \
+		./bonus/check_file.c \
+		./bonus/texture_mapping.c \
+		./bonus/pixel_put.c \
+		./bonus/draw_walls.c \
+		./bonus/valid_map_elem.c \
+		./bonus/valid_plyr_pos.c \
+		./bonus/parse_map_helpers.c \
+		./bonus/parse_map_helpers_2.c
 
 GETNEXTLINE := includes/GETNEXTLINE/*.c
 OBJS = $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
-#BONUS_OBJS = $(BONUS:./bonus/%.c=$(OBJS_DIR)/bonus/%.o)
-BONUS_OBJS = $(patsubst ./%.c, $(OBJS_DIR)/%.o, $(BONUS))
+BONUS_OBJS = $(BONUS:./bonus/%.c=$(OBJS_DIR)/bonus/%.o)
 
 MLX_DIR = mlx
 MLX_LIB = $(MLX_DIR)/libmlx.a
@@ -86,7 +85,6 @@ WHITE = \033[0;97m
 
 all: $(LIBFT) $(MLX_LIB) $(OBJS_DIR) $(NAME)
 
-bonus: CFLAGS += -D BONUS
 bonus: $(LIBFT) $(MLX_LIB) $(BONUS_OBJS)
 	@echo "$(YELLOW)Compiling Cub3D Bonus$(DEF_COLOR)"
 	@$(CC) $(BONUS_OBJS) $(GETNEXTLINE) -L$(LIBFT_DIR) -lft $(MLX_FLAGS) -o cub3D_bonus

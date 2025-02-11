@@ -6,11 +6,11 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:53:34 by dantoine          #+#    #+#             */
-/*   Updated: 2025/02/11 22:53:01 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/11 22:52:54 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3d.h"
+#include "../headers/cub3d_bonus.h"
 
 static int	skip_empty_line(char *cur_line, int *map_started, int *map_ended)
 {
