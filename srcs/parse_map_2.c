@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 18:11:34 by sanhwang          #+#    #+#             */
-/*   Updated: 2025/02/10 20:15:11 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:37:24 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,49 @@ char	*process_map_lines(char *cur_line, char *all_lines)
 	return (all_lines);
 }
 
+int	count_map_configs(int fd)
+{
+	char	*cur_line;
+	int		config_count;
+
+	config_count = 0;
+	cur_line = get_next_line(fd);
+	while (cur_line)
+	{
+		process_map_configs(cur_line, &config_count);
+		free(cur_line);
+		if (config_count >= 6)
+			break ;
+		cur_line = get_next_line(fd);
+	}
+	cleanup_gnl(fd);
+	return (config_count);
+}
+
 char	*parse_map_read_prep(char *map)
+{
+	int		fd;
+	char	*all_lines;
+	int		config_count;
+
+	all_lines = ft_strdup("");
+	fd = open(map, O_RDONLY);
+	if (fd < 0 || !all_lines)
+	{
+		free(all_lines);
+		return (NULL);
+	}
+	config_count = count_map_configs(fd);
+	close(fd);
+	if (!all_lines || config_count < 6)
+	{
+		free(all_lines);
+		return (NULL);
+	}
+	return (all_lines);
+}
+
+/* char	*parse_map_read_prep(char *map)
 {
 	char	*cur_line;
 	char	*all_lines;
@@ -61,12 +103,12 @@ char	*parse_map_read_prep(char *map)
 
 	all_lines = ft_strdup("");
 	fd = open(map, O_RDONLY);
-  	if (fd < 0 || !all_lines) // Check for error in file open or strdup failure
-    {
-        if (all_lines)
-            free(all_lines);  // Ensure it's freed
-        return (NULL);
-    }
+	if (fd < 0 || !all_lines)
+	{
+		if (all_lines)
+			free(all_lines);
+		return (NULL);
+	}
 	config_count = 0;
 	cur_line = get_next_line(fd);
 	while (cur_line)
@@ -79,10 +121,10 @@ char	*parse_map_read_prep(char *map)
 	}
 	cleanup_gnl(fd);
 	close(fd);
- if (!all_lines || config_count < 6)  // Ensure empty string is freed on error
-    {
-        free(all_lines);  // Free the empty string memory
-        return (NULL);  // Return NULL if no valid lines are processed
-    }
+	if (!all_lines || config_count < 6)
+	{
+		free(all_lines);
+		return (NULL);
+	}
 	return (all_lines);
-}
+} */

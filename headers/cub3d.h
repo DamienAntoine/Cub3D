@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:56:32 by dantoine          #+#    #+#             */
-/*   Updated: 2025/02/10 14:30:31 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:55:47 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,10 +217,12 @@ void			strafe_right(t_data *data);
 // parse_map_0.c
 t_map_info		*init_map_info(void);
 char			**parse_map(char *map);
+void			clean_and_close(int fd);
+char			*parse_map_read(char *map);
 
 // parse_map_1.c
-char			*parse_map_read(char *map);
 char			*handle_file_open(char *map, int fd);
+char			*read_map_lines(int fd, char *all_lines);
 
 // parse_map_2.c
 char			*parse_map_read_prep(char *map);
