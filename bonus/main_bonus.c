@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:53:18 by dantoine          #+#    #+#             */
-/*   Updated: 2025/02/11 22:34:11 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/12 01:23:55 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,21 @@ void	init_data(t_data *data)
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		exit_error("MLX initialization failed");
+	data->tokens = (t_tokens *)malloc(sizeof(t_tokens));
+	if (!data->tokens)
+		exit_error("Error: Memory allocation failed");
+	data->tokens->no = 0;
+	data->tokens->so = 0;
+	data->tokens->we = 0;
+	data->tokens->ea = 0;
+	data->tokens->f = 0;
+	data->tokens->c = 0;
 	data->win = NULL;
 	data->map = NULL;
 	data->image.img = NULL;
 	data->image.addr = NULL;
 	data->ray.move_speed = 0.025;
-	data->ray.rotate_speed = 0.05;
+	data->ray.rotate_speed = 0.01;
 	initialize_textures(data);
 }
 

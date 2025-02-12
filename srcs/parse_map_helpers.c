@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:32:00 by dantoine          #+#    #+#             */
-/*   Updated: 2025/02/10 11:32:08 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/12 01:14:54 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ char	*return_error(char *all_lines)
 	return (NULL);
 }
 
-char	*error_invalid_config(char *cur_line, char *all_lines)
+/* char	*error_invalid_config(char *cur_line, char *all_lines)
 {
 	if (all_lines)
 		free(all_lines);
 	get_next_line(-1);
 	printf("Error: Invalid or unknown config line.\n");
 	return (NULL);
-}
+} */
 
 char	*error_invalid_map_line(char *cur_line, char *all_lines)
 {

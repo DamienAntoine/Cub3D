@@ -6,7 +6,7 @@
 /*   By: sanhwang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 03:56:32 by dantoine          #+#    #+#             */
-/*   Updated: 2025/02/11 22:36:32 by sanhwang         ###   ########.fr       */
+/*   Updated: 2025/02/12 01:23:00 by sanhwang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,6 @@
 # define KEY_Q 113
 # define KEY_ESC 65307
 # define PATH_MAX 200
-
-/* #ifdef BONUS
-typedef struct s_minimap
-{
-	int			pos_x;
-	int			pos_y;
-	int			scale;
-	int			border;
-	int			show;
-	int			width;
-	int			height;
-	int			color;
-	int			plyr_color;
-}				t_minimap;
-#endif */
 
 typedef struct s_map_info
 {
@@ -156,9 +141,6 @@ typedef struct s_data
 	t_ray		ray;
 	t_img		image;
 	t_tokens	*tokens;
-	/* #ifdef BONUS
-	t_minimap	*minimap;
-	#endif */
 }				t_data;
 
 typedef struct s_config
@@ -168,13 +150,6 @@ typedef struct s_config
 	char		**split;
 	int			fd;
 }				t_config;
-
-/* #ifdef BONUS
-// minimap.c
-void			init_minimap(t_data *data);
-void			draw_minimap(t_data *data);
-void			draw_square(t_data *data, int x, int y, int size);
-#endif */
 
 // check_file.c
 void			check_file(char *file);
